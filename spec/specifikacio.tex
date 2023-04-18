@@ -1,0 +1,64 @@
+\documentclass[12pt,a4paper,oneside]{report}
+% nagyon sok kép esetén meggyorsítható a fordítás a draft móddal
+% \documentclass[12pt,a4paper,oneside,draft]{report}
+% ekkor a képek nem renderelődnek ki, csak placeholder lesz mérethelyesen
+\usepackage[utf8]{inputenc} % mindenképp maradjon az utf-8 kódolás
+\usepackage[magyar]{babel}
+\usepackage[T1]{fontenc}
+%\usepackage{amsmath}
+%\usepackage{amsfonts}
+\usepackage{amssymb}
+%\usepackage{graphics} % grafikus elemek, képek berakásához
+%\usepackage{epsfig} % eps importáláshoz
+%\usepackage{listings}
+%\usepackage{sectsty}
+%\usepackage{enumerate}
+\usepackage{siunitx} % ezzel lehet hivatalosan megformázni: szám + mértékegység
+%\usepackage{lastpage}
+\usepackage{setspace}
+\usepackage{hyperref} % PDF hivatkozásokhoz kell
+%\usepackage[hang]{caption}
+%\usepackage{titling} % a title, author parancsok szabad használatához
+\usepackage{xcolor}
+% a TikZ rajzoló modul, és a kapcsolási rajz készítő modul, ha kell
+%\usepackage{tikz}
+%\usepackage{circuitikz}
+
+\pagenumbering{gobble}
+
+\definecolor{rosewood}{rgb}{0.6, 0.0, 0.04}
+\definecolor{indigo(dye)}{rgb}{0.0, 0.25, 0.42}
+
+% az A4 oldal margóinak és méreteinek beállítása
+\usepackage[left=25mm,right=25mm,top=20mm,bottom=25mm]{geometry}\pagestyle{plain}
+
+% A sorköz távolság beállítása
+% egyszeres sorköz
+\singlespacing
+% 1,5 sorköz
+% \onehalfspacing
+
+\hypersetup
+{
+  	colorlinks,
+  	citecolor=blue,
+ 	linkcolor=rosewood,
+  	urlcolor=indigo(dye)
+}
+
+\begin{document}
+\begin{center}
+	\huge{Neurális hálózatok házi feladat specifikáció} \\
+	\vspace*{0.5cm}
+	\large{Pintér Bálint (NEPTUN), Szilágyi Gábor (NOMK01)}\\
+	\vspace*{0.5cm}
+	\Large{Koncentrált paraméterű RF szűrő optimalizációja \\ aktív tanulással}
+\end{center}
+A feladatunk az adathiányos problémákhoz tartozik, azon belül az aktív tanulást tervezzük alkalmazni hálózatszimulációhoz. Lényegében egy diszkrét passzív alkatrészekből álló, megadott struktúrájú, rádiófrekvenciás LC szűrőhálózat elemértékeinek optimalizálásáról van szó. Az ilyen szűrőknek jellegzetessége, hogy előre nehezen kiszámítható vagy megjósolható módon alakul a szűrő átviteli karakterisztikája általános elemértékek mellett, ez különösen igaz nagy elemszám esetén ($\gtrsim5$). Bizonyos elemértékkombinációknál rezonanciajelenségek alakulnak ki, amelyek miatt az átviteli karakterisztika nagyon érzékeny lehet az elemértékek perturbációjára. 
+
+Összességében a diszkrét elemek (induktivitások és kapacitások) értékeinek vektora jelent egy mintát, a hálózatnak ehhez a mintához kell megbecsülnie, hogy mennyire jól felel meg a hálózat átviteli karakterisztikája egy előre lerögzített specifikációnak. A specifikáció olyan formában adott, hogy egy szélesebb frekvenciasávon belül egy vagy több keskenyebb ún. áteresztő (záró) sávban adott egy alsó (felső) határérték, amely fölött (alatt) kell lennie az átvitel abszolút értékének. Ezek között az áteresztő vagy záró sávok között átmeneti sávok vannak, ahol nincs megkötés az átvitel értékére.
+
+Definiálunk majd egy operátort, ami egy adott átviteli karakterisztikához rendel egy valós számot, ami annak a mértéke, hogy az mennyire felel meg a specifikációnak. A határértékeken való átlógást mindenképpen bünteti és a határérték minél nagyobb tartalékkal való teljesítését esetleg jutalmazza ez az operátor. Ennek az operátornak a célszerű megadása is a feladat része. Az elemérték-vektorok terén kell tehát a megfelelőség-függvénynek a globális szélsőértékét megtalálnia a hálónak. Tanulás közben a háló jelöli ki, hogy mi legyen a következő kiértékelendő minta, innen a tanulás aktív jellege. Mindeközben minél kevesebbszer kell kiértékelni a megfelelőségi függvényt, innen adódik az adathiányos, aktív tanulási eljárás motivációja. Ennek a konkrét optimalizációs problémának nem sok gyakorlati jelentőssége van, mivel majdnem minden esetben viszonylag kis elemszámú szűrőt használnak, ami jól kezelhető analitikusan. Jellegében viszont nagyon hasonló a 3D elektromágneses struktúrák (iránycsatoló, szűrő, teljesítményosztó, antenna, stb.) optimalizációjához. Ezeknél a feladatoknál általában fizikai méretparaméterek az ismeretlenek és hasonlóan egy skalármennyiség (átvitel, impedancia, antennanyereség, stb.) maximalizációja (minimalizációja) a cél. A bonyolultabb EM szimulációknál viszont már könnyen teljesülhet, hogy egy kiértékelés, vagyis egy szimuláció futtatás nagyon költséges lehet. Azért a koncentrált paraméterű szűrővel foglalkozunk mégis, mert ennél sokkal egyszerűbb egy kiértékelés és nem kell egy bonyolult szimulációt tervezni, valamint sokszor lefuttatni, a rendszer viselkedése pedig tanulhatóság szempontjából hasonló.
+
+A címben az ,,aktív tanulás'' lehet, hogy nem teljesen jó megfogalmazás, a ,,Bayesian optimization'' vagy ,,optimal experimental design'' címszavak is hasonló alapgondolatú eljárásokra használatosak.
+\end{document}
