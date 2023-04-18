@@ -50,7 +50,7 @@
 \begin{center}
 	\huge{Neurális hálózatok házi feladat specifikáció} \\
 	\vspace*{0.5cm}
-	\large{Pintér Bálint (NEPTUN), Szilágyi Gábor (NOMK01)}\\
+	\large{Pintér Bálint (I6QS0K), Szilágyi Gábor (NOMK01)}\\
 	\vspace*{0.5cm}
 	\Large{Koncentrált paraméterű RF szűrő optimalizációja \\ aktív tanulással}
 \end{center}
@@ -60,5 +60,5 @@ A feladatunk az adathiányos problémákhoz tartozik, azon belül az aktív tanu
 
 Definiálunk majd egy operátort, ami egy adott átviteli karakterisztikához rendel egy valós számot, ami annak a mértéke, hogy az mennyire felel meg a specifikációnak. A határértékeken való átlógást mindenképpen bünteti és a határérték minél nagyobb tartalékkal való teljesítését esetleg jutalmazza ez az operátor. Ennek az operátornak a célszerű megadása is a feladat része. Az elemérték-vektorok terén kell tehát a megfelelőség-függvénynek a globális szélsőértékét megtalálnia a hálónak. Tanulás közben a háló jelöli ki, hogy mi legyen a következő kiértékelendő minta, innen a tanulás aktív jellege. Mindeközben minél kevesebbszer kell kiértékelni a megfelelőségi függvényt, innen adódik az adathiányos, aktív tanulási eljárás motivációja. Ennek a konkrét optimalizációs problémának nem sok gyakorlati jelentőssége van, mivel majdnem minden esetben viszonylag kis elemszámú szűrőt használnak, ami jól kezelhető analitikusan. Jellegében viszont nagyon hasonló a 3D elektromágneses struktúrák (iránycsatoló, szűrő, teljesítményosztó, antenna, stb.) optimalizációjához. Ezeknél a feladatoknál általában fizikai méretparaméterek az ismeretlenek és hasonlóan egy skalármennyiség (átvitel, impedancia, antennanyereség, stb.) maximalizációja (minimalizációja) a cél. A bonyolultabb EM szimulációknál viszont már könnyen teljesülhet, hogy egy kiértékelés, vagyis egy szimuláció futtatás nagyon költséges lehet. Azért a koncentrált paraméterű szűrővel foglalkozunk mégis, mert ennél sokkal egyszerűbb egy kiértékelés és nem kell egy bonyolult szimulációt tervezni, valamint sokszor lefuttatni, a rendszer viselkedése pedig tanulhatóság szempontjából hasonló.
 
-A címben az ,,aktív tanulás'' lehet, hogy nem teljesen jó megfogalmazás, a ,,Bayesian optimization'' vagy ,,optimal experimental design'' címszavak is hasonló alapgondolatú eljárásokra használatosak.
+A címbenli ,,aktív tanulás'' megfogalmazás mellett a ,,Bayesian optimization'' vagy ,,optimal experimental design'' címszavak is hasonló alapgondolatú eljárásokra használatosak.
 \end{document}
