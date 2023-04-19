@@ -81,7 +81,7 @@ b></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
 </usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></
 usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></us
 r/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm2488.pfb>
-Output written on specifikacio.pdf (1 page, 84445 bytes).
+Output written on specifikacio.pdf (1 page, 84440 bytes).
 Transcript written on specifikacio.log.
 This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex)
  restricted \write18 enabled.
@@ -160,5 +160,5 @@ b></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
 </usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></
 usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></us
 r/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm2488.pfb>
-Output written on specifikacio.pdf (1 page, 84445 bytes).
+Output written on specifikacio.pdf (1 page, 84440 bytes).
 Transcript written on specifikacio.log.
