@@ -1,31 +1,64 @@
-#import numpy as np
+import numpy as np
+import math
+import matplotlib.pyplot as plt
+
+pi = math.pi
 
 class Spec:
 	def __init__(self, starts, ends, limits, directions):
-		# starts of pass- or stopbands
+		# starts of pass- or stopbands in Hz
 		self.starts = starts
-		# ends of start- or stopbands
+		# ends of start- or stopbands in Hz
 		self.ends = ends
 		# pass- or stopband threshold values
 		self.limits = limits
-		# pass- or stopbands?
+		# pass- or stopbands? possible values: "pass" or "stop" strings
 		self.directions = directions
 
 	def cost(self, types, values):
 		"""types:
 				'L': inductance
 				'C': capacitance
-			values in SI units [Farad/Henry]"""
+			values in SI units [Farad/Henry]
+			0 value series L or parallel C means
+			skipping that element.
+			Starts with parallel (shunt) element."""
 		minf = (min(self.starts))
 		maxf = (max(self.ends))
+		# frequency axis sample points (log spacing)
 		faxis = []
+		# no. of frequency sample points
 		n = 100
 		factor = (maxf/minf)**((1/n))
 		for i in range(n+1):
 			faxis.append(minf*factor**(i))
+		# reference impedance in Ohm
+		Z0 = 50
+		# array of overall S21 values at the
+		# frequency sample points
+		S21 = []
+		ss = "shunt" # start with shunt component
 		for i in range(n+1):
-			for j in range()
-
+			# S-matrix of the current element
+			S = np.matrix([[1,0],[0,1]])
+			for j in range(len(values)):
+				if types[j] == 'L':
+					Z = faxis[i]*1j*2*pi*values[j]
+				else: # 'C'
+					Z = 1/(faxis[i]*1j*2*pi*values[j])
+				if ss == "shunt":
+					Y = 1/Z
+					Y0 = 1/Z0
+					m = np.matrix([[-Y, 2*Y0],
+						[2*Y0, -Y]])/(Y+2*Y0)
+					ss = "series"
+				else: # "series"
+					m = np.matrix([[-Y, 2*Y0],
+						[2*Y0, -Y]])/(Y+2*Y0)
+					ss = "shunt"
+				S=S*m
+			S21.append(S.item(0,1))
+		#plt.plot(faxis, S21)
 
 spec = Spec([10, 20, 50], [12, 22, 52], [1,1,1], ["pass", "stop", "pass"])
 spec.cost(['L', 'C', 'L'], [1, 1, 1])
