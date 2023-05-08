@@ -58,15 +58,20 @@ class Spec:
 					ss = "shunt"
 				S=S*m
 			S21.append(abs(S.item(0,1)))
-		#plt.plot(faxis, S21)
-		#plt.show()
-		cost=0
-		for i in len(self.starts):
-			for j in len(faxis):
-				if faxis[j]>self.starts[i] && faxis[j]<self.ends[i]:
-					if self.directions[i] == "pass"
-						cost += max(0, S21[j]/self.limits[i])
+		plt.plot(faxis, S21)
+		plt.show()
+		cost = 0
+		# number of freq points in the regions where the S21 is specified
+		ncost = 0
+		for i in range(len(self.starts)):
+			for j in range(len(faxis)):
+				if faxis[j]>self.starts[i] and faxis[j]<self.ends[i]:
+					ncost = ncost + 1
+					if self.directions[i] == "pass":
+						cost += max(0, 1-S21[j]/self.limits[i])
 					else: # "stop"
+						cost += max(0, S21[j]/self.limits[i]-1)
+		return cost/ncost
 
 spec = Spec([0.01], [1], [1], ["pass"])
-spec.cost(['L', 'L', 'C'], [1, 0, 0.1])
+print(spec.cost(['L', 'L', 'C'], [1, 0, 0.1]))
