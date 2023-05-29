@@ -188,6 +188,69 @@
 			\end{figure}
 	\end{columns}
 \end{frame}
+
+\begin{frame}
+	\frametitle{Bayesi optimalizálás}
+	\begin{itemize}
+		\item Specifikált probléma, költségfüggvény $\rightarrow$ optimális megoldás
+		\item Nagy szabadsági fok, kiértékelés költséges, bonyolult, időigényes lehet
+		\item Bayesi optimalizálás, feladat megoldásához: már létező könyvtár\\
+		(Bayesian Optimization lib, ami a scikit-learn-ön alapul)
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Bayesian Optimization könyvtár}
+	\begin{itemize}
+		\item Példányosítás, inputok: költségfüggvény, határok 
+		(maximalizálás)
+		\item \textit{maximize( )} függvény, inputok: kezdeti random pontok, iterációszám
+		\item Ebben: \textit{utility} függvény definiálás, majd iteratív megoldás
+	\end{itemize}
+	\pause
+	Minden iterációs lépésben:
+	\begin{itemize}
+		\item Paraméterfrissítés: \textit{update\_param()} tagfüggvény
+		\item frissített \textit{utility}-val javaslat (\textit{suggest( )}) egy új kiértékelési helyre, \textit{x\_probe}-ra
+		\item \textit{probe( )} kiértékeli \textit{x\_probe} helyen
+	\end{itemize}
+	Iteráció lefut: maximalizált pont a paramétertérben.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Paraméterfrissítés}
+	\textit{Utility} függvény \textit{update\_param} tagfüggvénye:
+	\begin{itemize}
+		\item Feltárási stratégia: UCB, EI, POI\\alapbeállítás: UCB (Upper Confidence Bounds method)
+		\item $\kappa, \chi$ hiperparaméterek
+		\item $\kappa_{decay}$-vel szorozódik (csökken) $\kappa$ minden $\kappa_{decay-delay}$ utáni iterációban
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Új kiértékelési hely javaslat}
+	\textit{Suggest( )} javaslata = \textit{argmax( )}-ot néz egy akvizíciós függvényre, \textit{acq\_max}-ra
+	\begin{itemize}
+		\item Input: \textit{utility} függvény
+		\item Első lépés: mintavételezés $10^5$ pontra, random, egyenletes eloszlással
+		\item Második lépés: L-BFGS-B optimalizációs metódus (minden mintavételezési pontra)
+		\item Visszatér az legnagyobbal, ez lesz: \textit{x\_probe}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{L-BFGS-B optimalizáció}
+	\begin{itemize}
+		\item L-BFGS-B solver: \textit{scipy.optimizer} könyvtárból, minimalizálási feladatokra $\rightarrow$ módosítani kell \textit{acq\_max}-ot
+		\item Másodrendű optimalizációs algoritmus, Kvázi-Newton módszer
+		\item L-BFGS algoritmus (Limited-memory Broyden-Fletcher-Goldfarb-Shanno) kiterjesztése korlátok kezelésével
+		\item Másodrendű deriváltat közelít, ahol azt közvetlenül nem lehet kiszámolni
+		\item Nem kell kiszámolni a Hesse-mátrixot\\(csak $\underline{\underline{H}}^{-1}$-t közelíti)
+		\item Limitált memória: csak az elmúlt \textit{m} lépés koordináta- és gradiensvektorát tárolja el.
+	\end{itemize}
+	
+\end{frame}
+
 %\begin{frame}
 %	\frametitle{Az egydimenziós modell}
 %	\begin{columns}
