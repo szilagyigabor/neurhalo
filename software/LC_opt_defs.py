@@ -2,9 +2,11 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
+from matplotlib.backends.backend_pdf import PdfPages
 
 pi = math.pi
 inf = math.inf
+
 
 # calculate impedance of an L or C element on the given frequency
 # if the input value is positive, then Z is calculated for a "value" valued inductance [H]
@@ -101,31 +103,41 @@ class Spec:
                     mSer = np.matrix([[Z, 2*Z0],[2*Z0, Z]])/(Z+2*Z0)
                 S = S*mPar*mSer
             S21.append(abs(S.item(0,1)))
+        # natural log of margin+1
+        lnmargin=math.log(self.margin+1)
         if(plot):
-            # green: passband, red: stopband
+            # green: passband; red: stopband; orange: ok, but close to not ok, still punished
             fig, ax = plt.subplots()
             minS21 = min(S21)
             for i in range(len(self.starts)):
                 if(self.directions[i] == "pass"):
+                    # region forbidden by the original specification
                     ax.add_patch(Rectangle((self.starts[i], minS21),
                                            self.ends[i]-self.starts[i],
                                            self.limits[i]-minS21,
                                            facecolor='#00aa00'))
+                    # region close to original limit, but satisfying it, additional penalty region
                     ax.add_patch(Rectangle((self.starts[i], self.limits[i]),
                                            (self.ends[i]-self.starts[i]),
-                                           self.margin,
+                                           self.limits[i]*self.margin,
                                            facecolor='orange'))
                 else: # "stop"
+                    # region forbidden by the original specification
                     ax.add_patch(Rectangle((self.starts[i], self.limits[i]),
                                            self.ends[i]-self.starts[i],
                                            1.0-self.limits[i],
                                            facecolor='#aa0000'))
-                    ax.add_patch(Rectangle((self.starts[i], self.limits[i]*(1-self.margin)),
+                    # region close to original limit, but satisfying it, additional penalty region
+                    ax.add_patch(Rectangle((self.starts[i], self.limits[i]*(1/(1+self.margin))),
                                            (self.ends[i]-self.starts[i]),
-                                           self.limits[i]*self.margin,
+                                           self.limits[i]*(1-1/(1+self.margin)),
                                            facecolor='orange'))
             ax.loglog(faxis, S21, 'k-')
+            plt.ylabel(r'$|S_{21}|$')
+            plt.xlabel(r'$f$')
+            plt.savefig("plot.pdf", dpi=120, format='pdf', bbox_inches='tight')
             plt.show()
+            
         cost = 0
         # number of freq points in the regions where the S21 is specified
         ncost = 0
@@ -133,8 +145,10 @@ class Spec:
             for j in range(len(faxis)):
                 if faxis[j]>self.starts[i] and faxis[j]<self.ends[i]:
                     ncost = ncost + 1
+                    lnlimit = math.log(self.limits[i])
+                    lnS21 = math.log(S21[j])
                     if self.directions[i] == "pass":
-                        cost += max(0, 1-S21[j]/((self.limits[i])*(1+self.margin)))
+                        cost += max(0, lnS21-lnlimit-lnmargin)
                     else: # "stop"
-                        cost += max(0, S21[j]/((self.limits[i])*(1-self.margin))-1)
+                        cost += max(0, lnlimit+lnmargin-lnS21)
         return -cost/ncost
