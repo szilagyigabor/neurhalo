@@ -1,2 +1,12 @@
 software/.ipynb_checkpoints
 software/__pycache__
+*.aux
+*.bbl
+*.blg
+*.log
+*.nav
+*.out
+*.snm
+*.synctex.gz
+*.toc
+prezi/output.txt
