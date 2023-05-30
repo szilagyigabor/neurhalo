@@ -106,7 +106,7 @@
     \end{center}
 \end{frame}
 \begin{frame}
-	\frametitle{Az egységhálózat szórási mátrixa (S-mátrixa)}
+	\frametitle{Az egységhálózat ABCD paraméterei ([a]-mátrixa)}
 	%\framesubtitle{Az 1. dia alcíme}
     \begin{center}
     	\begin{circuitikz}[] %[longL/.style = {cute inductor, inductors/scale=0.75, inductors/width=1.6, inductors/coils=9}]
@@ -119,7 +119,7 @@
             \draw (7.5,3)
             to[short, -o] (8,3);
             \draw[thick,red] (0,-0.5) rectangle (7.5,3.5);
-            \draw (3.75,1.5) node {$\mat{S_i}=\begin{bmatrix}S_{i,11}~S_{i,12} \\ S_{i,21}~S_{i,22}\end{bmatrix} \in \mathbb{C}^{2\times2}$};
+            \draw (3.75,1.5) node {$\mat{[a]_i}=\begin{bmatrix}a_{i,11}~a_{i,12} \\ a_{i,21}~a_{i,22}\end{bmatrix} \in \mathbb{C}^{2\times2}$};
         \end{circuitikz}
     \end{center}
 \end{frame}
@@ -139,7 +139,7 @@
                 to[short, -o] (\x+\x+1.5,0);
                 \draw (\x+\x+1,1)
                 to[short, -o] (\x+\x+1.5,1);
-                \draw (\x+\x+0.5,0.5) node {$\underline{\underline{S_{\x}}}$};
+                \draw (\x+\x+0.5,0.5) node {$\underline{\underline{[a]_{\x}}}$};
             }
         \end{circuitikz}
     \end{center}
@@ -160,16 +160,19 @@
                 to[short, -o] (\x+\x+1.5,0);
                 \draw (\x+\x+1,1)
                 to[short, -o] (\x+\x+1.5,1);
-                \draw (\x+\x+0.5,0.5) node {$\mat{S_{\x}}$};
+                \draw (\x+\x+0.5,0.5) node {$\mat{[a]_{\x}}$};
             }
             \draw[thick,green] (1.75,-0.5) rectangle (11.25,1.5);    
         \end{circuitikz}
     \end{center}
     \begin{equation*}
-        \mat{S} = \prod_{i}^{} \mat{S_{i}} = \begin{bmatrix}S_{11}~S_{12} \\ S_{21}~S_{22}\end{bmatrix}
+        \mat{[a]} = \prod_{i}^{} \mat{[a]_{i}} = \begin{bmatrix}a_{11}~a_{12} \\ a_{21}~a_{22}\end{bmatrix} = \begin{bmatrix}A~B \\ C~D\end{bmatrix}
     \end{equation*}
     \vspace{1cm}\\
-    Az egész hálózat $|S_{21}(f)|$ paraméterére vonatkozik specifikáció.
+    Az egész hálózat $|S_{21}(f)|$ paraméterére vonatkozik specifikáció.\\
+    \begin{equation*}
+        S_{21} = \dfrac{2}{A+B/Z_0+C\cdot Z_0+D}
+    \end{equation*}
 \end{frame}
 \begin{frame}
 	\frametitle{A teljesítendő specifikáció}

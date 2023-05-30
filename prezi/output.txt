@@ -298,7 +298,7 @@ cal/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></us
 r/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/
 local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/lo
 cal/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb>
-Output written on beamer.pdf (7 pages, 136196 bytes).
+Output written on beamer.pdf (7 pages, 139208 bytes).
 Transcript written on beamer.log.
 This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex)
  restricted \write18 enabled.
@@ -595,5 +595,5 @@ t/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2022/texmf
 -dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2022/texmf-d
 ist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2022/texmf-dis
 t/fonts/type1/public/cm-super/sfrm1440.pfb>
-Output written on beamer.pdf (7 pages, 136196 bytes).
+Output written on beamer.pdf (7 pages, 139208 bytes).
 Transcript written on beamer.log.

@@ -6,16 +6,16 @@ from matplotlib.backends.backend_pdf import PdfPages
 
 pi = math.pi
 inf = math.inf
+nan = math.nan
 
 
 # calculate impedance of an L or C element on the given frequency
-# if the input value is positive, then Z is calculated for a "value" valued inductance [H]
-# if the input value is negative, then Z is calculated for a "-value" valued capacitance [F]
-def Impedance(freq, value):
-    if(value >= 0 or value == inf): # value is inductance in [Henry]
-        return 0+freq*1j*2*pi*value
-    else: # -1*value is capacitance in [Farad]
-        return -1j*1/(freq*2*pi*(-value))
+def ImpedanceC(freq, lnvalue): # -1*value is capacitance in [Farad]
+    return -1j*1/(freq*2*pi*(math.exp(lnvalue)))
+
+def ImpedanceL(freq, lnvalue): # value is inductance in [Henry], lnvalue is ln(value)
+    return 0+freq*1j*2*pi*math.exp(lnvalue)
+
 
 # calculate parallel impedance of Z1 and Z2,
 # considering possible 0 and infinite values
@@ -32,6 +32,41 @@ def Parallel(Z1, Z2):
                 return Z1
     else:
         return Z1*Z2/(Z1+Z2)
+
+#ipmedance of the series LC subcircuit
+def Impedance(f, lnC, lnL):
+    match [math.isnan(lnC), math.isnan(lnL)]:
+        case [True, True]:
+            return 0.0
+        case [True, False]:
+            L = math.exp(lnL)
+            return f*1j*2*pi*L
+        case [False, True]:
+            C = math.exp(lnC)
+            return -1j*1/(f*2*pi*C)
+        case _:
+            C = math.exp(lnC)
+            L = math.exp(lnL)
+            ZC = -1j*1/(f*2*pi*C)
+            ZL = 0+f*1j*2*pi*L
+            return ZL*ZC/(ZL+ZC)
+
+def Admittance(f, lnC, lnL):
+    match [math.isnan(lnC), math.isnan(lnL)]:
+        case [True, True]:
+            return 0.0
+        case [True, False]:
+            L = math.exp(lnL)
+            return 1/(f*1j*2*pi*L)
+        case [False, True]:
+            C = math.exp(lnC)
+            return f*2*pi*C*1j
+        case _:
+            C = math.exp(lnC)
+            L = math.exp(lnL)
+            ZC = -1j*1/(f*2*pi*C)
+            ZL = 0+f*1j*2*pi*L
+            return (ZL+ZC)/ZL*ZC
 
 def YfromZ(Z):
     if(Z==0):
@@ -57,7 +92,7 @@ class Spec:
         self.margin = margin
 
     #def cost(self, types, values):
-    def cost(self, plot=False, par11=inf, par12=inf, ser11=0.0, ser12=0.0, par21=inf, par22=inf, ser21=0.0, ser22=0.0, par31=inf, par32=inf, ser31=0.0, ser32=0.0):
+    def cost(self, plot=False, par1C=nan, par1L=nan, ser1C=nan, ser1L=nan, par2C=nan, par2L=nan, ser2C=nan, ser2L=nan, par3C=nan, par3L=nan, ser3C=nan, ser3L=nan):
         """Parameters define a ladder structure,
         where each series or parallel element consists of
         two discrete, ideal L or C components in parallel
@@ -67,7 +102,7 @@ class Spec:
         element. Similarly, "serXY" means the value of the Y-th
         sub-component of the X-th series element. The ladder starts
         with a parallel element."""
-        values = [par11, par12, ser11, ser12, par21, par22, ser21, ser22, par31, par32, ser31, ser32]
+        values = [par1C, par1L, ser1C, ser1L, par2C, par2L, ser2C, ser2L, par3C, par3L, ser3C, ser3L]
         nval = len(values)
         nladder = int(nval/4)
         minf = (min(self.starts))
@@ -79,30 +114,28 @@ class Spec:
         factor = (maxf/minf)**((1/self.n))
         for i in range(self.n+1):
             faxis.append(minf*factor**(i))
-        # reference impedance in Ohm
+        # reference impedance in Ohm, on both ports
         Z0 = 50
         Y0 = 1/Z0
-        # array of overall S21 values at the
-        # frequency sample points
+        # array of overall S21 values at the frequency sample points
         S21 = []
-        #TODO: process arguments in a new way
         #process 1 parallel and 1 series element:
         for f in faxis:
-            S = np.matrix([[0,1],[1,0]])
+            # ABCD parameter matrix of the whole system
+            ABCD = np.matrix([[1,0],[0,1]])
             for l in range(nladder):
                 # admittance of the two parallel components together from the current step of the ladder
-                Y = YfromZ(Parallel(Impedance(f, values[l+0]), Impedance(f, values[l+1])))
-                if(abs(Y) == inf):
-                    mPar = np.matrix([[0, 1],[1, 0]])
-                else:
-                    mPar = np.matrix([[-Y, 2*Y0],[2*Y0, -Y]])/(Y+2*Y0)
-                Z = Parallel(Impedance(f, values[l+2]), Impedance(f, values[l+3]))
-                if(abs(Z) == inf):
-                    mSer = np.matrix([[1, 0],[0, 1]])
-                else:
-                    mSer = np.matrix([[Z, 2*Z0],[2*Z0, Z]])/(Z+2*Z0)
-                S = S*mPar*mSer
-            S21.append(abs(S.item(0,1)))
+                Y = Admittance(f, values[4*l+0], values[4*l+1])
+                mPar = np.matrix([[1, 0],[Y, 1]])
+                Z = Impedance(f, values[4*l+2], values[4*l+3])
+                mSer = np.matrix([[1, Z],[0, 1]])
+                ABCD = ABCD*mPar*mSer
+            # 2/(A+B/Z0+C*Z0+D)
+            A = ABCD.item(0,0)
+            B = ABCD.item(0,1)
+            C = ABCD.item(1,0)
+            D = ABCD.item(1,1)
+            S21.append(abs(2/(A+B/Z0+C*Z0+D)))
         # natural log of margin+1
         lnmargin=math.log(self.margin+1)
         if(plot):
@@ -148,7 +181,7 @@ class Spec:
                     lnlimit = math.log(self.limits[i])
                     lnS21 = math.log(S21[j])
                     if self.directions[i] == "pass":
-                        cost += max(0, lnS21-lnlimit-lnmargin)
+                        cost += max(0, min(-lnS21, lnlimit+lnmargin-lnS21))
                     else: # "stop"
-                        cost += max(0, lnlimit+lnmargin-lnS21)
+                        cost += max(0, lnS21-lnlimit+lnmargin)
         return -cost/ncost
