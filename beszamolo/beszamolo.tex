@@ -1,0 +1,115 @@
+% pdf/a 
+\begin{filecontents*}[overwrite]{\jobname.xmpdata}
+	\Title{Koncentrált paraméterű RF szűrő optimalizációja aktív tanulással}
+	\Author{Pintér Bálint, Szilágyi Gábor}
+	\Language{hu-HU}
+	\Subject{Bayes-optimalizáció}
+	\Keywords{Bayes-optimalizáció, aktív tanulás}
+	\Publisher{Pintér Bálint, Szilágyi Gábor}
+\end{filecontents*}
+
+\documentclass[a4paper,12pt,titlepage]{article}
+%\documentclass[a4paper,12pt,titlepage,draft]{article}
+\usepackage{ucs}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[magyar]{babel}
+\usepackage{amsfonts}
+\usepackage{amsmath,bm}
+%\usepackage{mathtools} % for \ceil*{}
+\usepackage{amssymb}
+\usepackage{graphicx}
+%\usepackage[hang]{caption}
+\usepackage{subcaption}
+\usepackage{blkarray,booktabs,bigstrut} % a címkézett mátrixhoz
+%\usepackage{enumerate}
+%\usepackage{psfrag}
+\usepackage[left=25mm,right=25mm,top=25mm,bottom=25mm]{geometry}
+%\usepackage[hyphenbreaks]{breakurl}
+%\usepackage[hyphens]{url}
+%\usepackage{multirow}
+%\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{listings}
+%\usepackage{cite}
+%\usepackage{csquotes}
+\usepackage{inconsolata}
+\usepackage{siunitx}
+\usepackage{xcolor}
+\usepackage[a-3u]{pdfx}
+\hypersetup{
+	colorlinks,
+%	 linkcolor={red!50!black},
+	linkcolor={black},
+%	 citecolor={blue!50!black},
+	citecolor={black},
+%	 urlcolor={blue!80!black}
+	urlcolor={blue!80!black}
+}
+
+\definecolor{mygray}{RGB}{240, 240, 240}
+\definecolor{mygreen}{RGB}{0, 140, 40}
+
+\sisetup{
+	range-phrase=--,
+	range-units=single,
+	output-decimal-marker={,},
+	tight-spacing=true,
+	print-unity-mantissa=false,
+}
+
+\lstset{ % General setup for the package
+	language=Python,
+	basicstyle=\scriptsize\ttfamily,
+	numbers=left,
+	numberstyle=\tiny,
+	tabsize=2,
+	backgroundcolor=\color{mygray},
+	columns=fixed,
+	showstringspaces=false,
+	showtabs=false,
+	keepspaces,
+	frame=trbl,
+	breaklines=true,
+	%breakwhitespace=true,
+	morekeywords={sort2,sort8},
+	stringstyle=\color{red},
+	commentstyle=\color{mygreen},
+	keywordstyle=\color{blue}
+}
+
+\sloppy % Margón túllógó sorok tiltása.
+\widowpenalty=10000 \clubpenalty=10000 %A fattyú- és árvasorok elkerülése
+\def\hyph{-\penalty0\hskip0pt\relax} % Kötőjeles szavak elválasztásának engedélyezése
+
+\begin{document}
+\begin{center}
+	\huge{Neurális hálózatok házi feladat beszámoló} \\
+	\vspace*{0.5cm}
+	\large{Pintér Bálint (I6QS0K), Szilágyi Gábor (NOMK01)}\\
+	\vspace*{0.5cm}
+	\Large{Koncentrált paraméterű RF szűrő optimalizációja \\ aktív tanulással}
+\end{center}
+\section{Bevezetés}
+	\subsection{Aktív tanulás}
+		A legtöbb neurális hálózatokat használó megoldás olyan problémára irányul, ahol sok rendelkezésre álló adat alapján kell a hálót betanítani egy feladat elvégzésére. Az a legtöbb esetben teljesül, hogy még több tanító adat felhasználásával jobb hálót lehetne tanítani, de ennek az extrém esetére tud megoldást nyújtani az aktív tanulás. A nem adathiányos problémáknál a rendelkezésre álló, címkézett adatpontok nagy részét felhasználva szokás tanítani a hálót, majd a fennmaradó adatpontokon ellenőrizni a háló teljesítőképességét olyan esetekre, amikkel nem talélkozott a tanulás során. Az aktív tanulás folyamata ettől merőben eltér.
+
+		Aktív tanulás kiindulási helyzete, hogy nagyon sok címkézetlen adat áll rendelkezésre, de az egyes adatpontok címkézése rendkívül költséges. A címkézés kölstége miatt végeredményben az a cél, hogy azt minél kevesebbszer kelljen elvégezni a tanulás során. A tanulási folyamat közben az eddig megkapott kevés címkézett adatpont alapján a háló jelöl ki következőnek címkézésre azt, amelyik várhatóan a leghasznosabb lesz számára. A hasznosság becslésére több megközelítés is létezik, erre a későbbiekben visszetérünk.
+
+		Az aktív tanulás egyik alesete a Bayes-optimalizáció. Itt nem egy osztályozót tanítunk minél kevesebb címkézett adat alapján, hanem egy ,,fekete doboz'' függvény maximumát keressük a függvény minél kevesebb kiértékelése mellett. Ez a különbség már befolyásolni fogja a következőnek megcímkézendő adat választását, ami ebben az esetben a következő paraméterértékek megválasztását jelenti, ahol kiértékeljük a függvényt.
+	\subsection{Az optimalizálandó probléma}
+		Az optimalizáció céljának 
+	\subsection{A felhasznált könyvtár}
+\section{A probléma átalakítása}
+	\subsection{Impedanciák és admittanciák}
+	\subsection{Láncparaméterek}
+	\subsection{Szórási paraméterek}
+\section{A célfüggvény}
+	\subsection{Az első verzió és a problémái}
+	\subsection{A paraméterek logaritmizálása}
+	\subsection{A függvényérték logaritmizálása}
+\clearpage
+\appendix
+\section{Az általunk írt specifikáció osztály}
+	\lstinputlisting{../software/LC_opt_defs.py}
+\end{document}

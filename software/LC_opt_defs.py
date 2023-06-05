@@ -8,31 +8,6 @@ pi = math.pi
 inf = math.inf
 nan = math.nan
 
-
-# calculate impedance of an L or C element on the given frequency
-def ImpedanceC(freq, lnvalue): # -1*value is capacitance in [Farad]
-    return -1j*1/(freq*2*pi*(math.exp(lnvalue)))
-
-def ImpedanceL(freq, lnvalue): # value is inductance in [Henry], lnvalue is ln(value)
-    return 0+freq*1j*2*pi*math.exp(lnvalue)
-
-
-# calculate parallel impedance of Z1 and Z2,
-# considering possible 0 and infinite values
-def Parallel(Z1, Z2):
-    if(Z1==0.0 or Z2==0.0):
-        return 0.0
-    elif(abs(Z1)==inf or abs(Z2) == inf):
-        if(abs(Z1)==inf and abs(Z2) == inf):
-            return inf
-        else:
-            if(abs(Z1)==inf):
-                return Z2
-            else:
-                return Z1
-    else:
-        return Z1*Z2/(Z1+Z2)
-
 #ipmedance of the series LC subcircuit
 def Impedance(f, lnC, lnL):
     match [math.isnan(lnC), math.isnan(lnL)]:
@@ -67,12 +42,6 @@ def Admittance(f, lnC, lnL):
             ZC = -1j*1/(f*2*pi*C)
             ZL = 0+f*1j*2*pi*L
             return (ZL+ZC)/ZL*ZC
-
-def YfromZ(Z):
-    if(Z==0):
-        return inf
-    else:
-        return 1/Z
 
 class Spec:
     def __init__(self, starts, ends, limits, directions, margin, n):
@@ -170,7 +139,6 @@ class Spec:
             plt.xlabel(r'$f$')
             plt.savefig("plot.pdf", dpi=120, format='pdf', bbox_inches='tight')
             plt.show()
-            
         cost = 0
         # number of freq points in the regions where the S21 is specified
         ncost = 0
@@ -184,4 +152,5 @@ class Spec:
                         cost += max(0, min(-lnS21, lnlimit+lnmargin-lnS21))
                     else: # "stop"
                         cost += max(0, lnS21-lnlimit+lnmargin)
+		# negative of average cost, for function maximizing
         return -cost/ncost

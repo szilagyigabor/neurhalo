@@ -10,3 +10,4 @@ software/__pycache__
 *.synctex.gz
 *.toc
 prezi/output.txt
+.idea
