@@ -50,13 +50,7 @@
 \definecolor{mygray}{RGB}{240, 240, 240}
 \definecolor{mygreen}{RGB}{0, 140, 40}
 
-\sisetup{
-	range-phrase=--,
-	range-units=single,
-	output-decimal-marker={,},
-	tight-spacing=true,
-	print-unity-mantissa=false,
-}
+%\sisetup{range-phrase=--,range-units=single,output-decimal-marker={,},tight-spacing=true,print-unity-mantissa=false,}
 
 \lstset{ % General setup for the package
 	language=Python,
@@ -92,14 +86,42 @@
 \end{center}
 \section{Bevezetés}
 	\subsection{Aktív tanulás}
-		A legtöbb neurális hálózatokat használó megoldás olyan problémára irányul, ahol sok rendelkezésre álló adat alapján kell a hálót betanítani egy feladat elvégzésére. Az a legtöbb esetben teljesül, hogy még több tanító adat felhasználásával jobb hálót lehetne tanítani, de ennek az extrém esetére tud megoldást nyújtani az aktív tanulás. A nem adathiányos problémáknál a rendelkezésre álló, címkézett adatpontok nagy részét felhasználva szokás tanítani a hálót, majd a fennmaradó adatpontokon ellenőrizni a háló teljesítőképességét olyan esetekre, amikkel nem talélkozott a tanulás során. Az aktív tanulás folyamata ettől merőben eltér.
+		A legtöbb neurális hálózatokat használó megoldás olyan problémára irányul, ahol sok rendelkezésre álló adat alapján kell a hálót betanítani egy feladat elvégzésére. Az a legtöbb esetben teljesül, hogy még több tanító adat felhasználásával jobb hálót lehetne tanítani, de ennek az extrém esetére tud megoldást nyújtani az aktív tanulás. A nem adathiányos problémáknál a rendelkezésre álló, címkézett adatpontok nagy részét felhasználva szokás tanítani a hálót, majd a fennmaradó adatpontokon ellenőrizni a háló teljesítőképességét olyan esetekre, amikkel nem találkozott a tanulás során. Az aktív tanulás folyamata ettől merőben eltér.
 
-		Aktív tanulás kiindulási helyzete, hogy nagyon sok címkézetlen adat áll rendelkezésre, de az egyes adatpontok címkézése rendkívül költséges. A címkézés kölstége miatt végeredményben az a cél, hogy azt minél kevesebbszer kelljen elvégezni a tanulás során. A tanulási folyamat közben az eddig megkapott kevés címkézett adatpont alapján a háló jelöl ki következőnek címkézésre azt, amelyik várhatóan a leghasznosabb lesz számára. A hasznosság becslésére több megközelítés is létezik, erre a későbbiekben visszetérünk.
+		Aktív tanulás kiindulási helyzete, hogy nagyon sok címkézetlen adat áll rendelkezésre, de az egyes adatpontok címkézése rendkívül költséges. A címkézés költsége miatt végeredményben az a cél, hogy azt minél kevesebbszer kelljen elvégezni a tanulás során. A tanulási folyamat közben az eddig megkapott kevés címkézett adatpont alapján a háló jelöl ki következőnek címkézésre azt, amelyik várhatóan a leghasznosabb lesz számára. A hasznosság becslésére több megközelítés is létezik, erre a későbbiekben visszatérünk.
 
 		Az aktív tanulás egyik alesete a Bayes-optimalizáció. Itt nem egy osztályozót tanítunk minél kevesebb címkézett adat alapján, hanem egy ,,fekete doboz'' függvény maximumát keressük a függvény minél kevesebb kiértékelése mellett. Ez a különbség már befolyásolni fogja a következőnek megcímkézendő adat választását, ami ebben az esetben a következő paraméterértékek megválasztását jelenti, ahol kiértékeljük a függvényt.
 	\subsection{Az optimalizálandó probléma}
-		Az optimalizáció céljának 
+		Az optimalizálandó probléma egy koncentrált paraméterű rádiófrekvenciás (RF) szűrő elemeinek megadása, azaz méretezése. Egy koncentrált paraméterű elemekből felépülő szűrő alapesetben ellenállásból, tekercsekből és kondenzátorokból áll, de léteznek aktív elemet, azaz erősítőt is tartalmazó szűrők -- de ez már kívül esik a vizsgálatunkon, csak passzív eszközökkel foglalkozunk. Feltesszük továbbá, hogy a vizsgálatunk során csillapítással nem foglalkozunk, így ellenállást sem használunk a szűrőnkhöz.
+		
+		Szűrőtervezéskor mindig egy előre megadott specifikációból indulunk ki, ebben elő van írva azon frekvenciatartományok csoportja, ahol a szűrni kell, illetve ahol csillapítás nélkül kell az RF teljesítményt átereszteni. Ennek megfelelően beszélhetünk záró és áteresztő sávokról, ahol a szűrő impedanciakarakterisztikájának rendre nagynak, illetve kicsinek kell lennie, ehhez a tekercsek és kondenzátorok soros és párhuzamos rezonanciáit használjuk ki. (S paraméter majd később).
+		
+		A valóságban mind a tekercsek, mind a kondenzátorok 3D-s objektumok, induktivitásuk és kapacitásuk anyagparamétertől és geometriai méretektől függenek. Anyagparamétertől függés alatt a kondenzátorok dielektrikumában a relatív permittivitását, illetve a tekercsek belsejében a közeg relatív permeabilitását kell érteni -- bár utóbbi nem jellemző RF szűrők esetében. Az anyagparaméter tehát egy fix érték, amit nem egyszerű változtatni, méretezés céljából ez nem járható út. Megoldást a geometriai méretek optimális megválasztása jelent, ami utat nyit az alapesetektől, az analitikus formulákkal egyszerűen kiszámolható geometriáktól való eltéréshez. Bár ezekben az alapesetekben, a síkkondenzátorban és az egyenes tekercsben, a szolenoidban is megjelennek geometriai jellemzők, a
+\begin{align*}
+	C &= \varepsilon_{0}\varepsilon_{r}\frac{A}{d}\\
+	L &= \mu_{0}\mu_{r}\frac{N^{2}A}{l}
+\end{align*}
+formulák egyrészt csak közelítések, azaz nem írják le pontosan az $L$ és a $C$ értékeket, másrészt sokszor nem kivitelezhető az általuk leírt komponens.
+		
+		A feladat innentől az, hogy olyan geometriai méreteket találjunk, amivel a komponensek pont az általunk kívánt $L$ és $C$ értékeket mutassák, ezzel a specifikációnak eleget tudjunk tenni. Esetünkben a nem analitikusan kiszámolható értékekhez numerikus megoldást kell keresni, amire egy jó megoldás, ha 3D véges elemes szimulációt készítünk. Egy-egy szimuláció futási ideje a megkövetelt precizitás és a rendelkezésünkre álló erőforrás függvényében változhat, de mindenképp több mint csupán egyetlen egyenlet kiértékelése. Éppen ezért szükséges az optimalizálást úgy végezni, hogy szempont legyen a minél kevesebbszer történű kiértékelés. 
+		
+		A fent leírtak az RF szűrőtervezés témakörében egy releváns problémát takarnak, munkánkban azonban nem 3D véges elemes szimulációkat használunk, nem geometriai paraméterek optimalizálását végezzük el. Tesszük mindezt egyrészt azért, mert a szimulációs szoftverek programozott vezérlése \textbf{kibaszott nehéz}, másrészt a neurális hálók szempontjából teljesen lényegtelen, hogy a kiértékelt függvényben mi történik. Azonban maga az optimalizálás amit csinálunk alkalmas egy ilyen feladatra, és érdemben tudja a tervezőt segíteni munkája során. Visszatérni tehát a koncentrált paraméterű, $L$ és $C$ elemeket tartalmazó hálózatra az optimalizáció szempontjából nem jelent kevesebb munkát, ebben az értelemben nem jár a feladat egyszerűsítésével.
+		
+		A feladathoz már csak egy lépés hiányzik, amivel a problémát át tudjuk alakítani egy szélsőérték keresésre. Ennek az alapgondolata az, hogy az elvárt és a kapott kimenet különbségét vesszük figyelembe egy büntetőfüggvény segítségével. Magát az optimalizálást ezen keresztül tudjuk megtenni, ennek a függvénynek a kifejtésére a \ref{xyz} részben kerül sor.
+		
 	\subsection{A felhasznált könyvtár}
+	
+		Bayes-optimalizáció megvalósításához már léteznek elkészített könyvtárak, így azt külön nem készítettük el, hanem felhasználtuk. Az általunk használt ingyenesen elérhető és letölthető \textit{Bayesian Optimization} könyvtár más, neurális hálózatokra készített, ugyancsak szabadon hozzáférhető könyvtárakon alapszik, itt most ennek a bemutatását adjuk.
+		
+		A \textit{Bayesian Optimization} használata rendkívül egyszerű, összesen két dolgot kell megtennünk. Elsőként példányosítjuk a \textit{BayesianOptimization} osztályt, ami bemeneti paraméterként megkapja a maximalizálandó költségfüggvényt, illetve a határait annak a tartománynak, ahol a maximumot keresnie kell. Fontos kiemelni, hogy esetünkben a kapott és az elvárt kimenetek közötti minimalizálás a feladat, így a költségfüggvényben át kell térni maximumhely keresésre. 
+		
+		A szélsőértékhely keresést ezután a \textit{maximize( )} tagfüggvény hajtja végre. Ez a folyamat kezdetben random helyeken kiértékel pontokból indul el, majd iteratívan halad a modelltérben az optimum felé. Ennek megfelelően a \textit{maximize( )} bemeneti paraméterei az inicializáló, véletlenszerű helyek száma és az iteráció száma. Ebben elsőként példányosul egy \textit{UtilityFunction} nevű osztály, utána elindul az iteráció. 
+		Minden kör az előző lefutás utáni paraméterfrissítéssel, az \textit{update\_param( )}-mal kezdődik, ami a \textit{UtilityFunction} egy tagfüggvénye. A függvénynek több felderítési típusa lehet, ezek a UCB (Upper Confidence Bounds method), az EI (Expected Improvement method) és a POI (Probability Of Improvement), alapesetben az UCB-t használjuk. Az \textit{update\_param( )}-nak három hiperparamétere van: $\chi$, $\kappa$ és $\kappa_{decay}$, az utóbbi a $\kappa$ csökkentését végzi minden iterációban, de csak egy másik paraméter, $\kappa_{delay}$ iterációtól kezdve.
+		Frissítve a \textit{UtilityFunction}-t, egy javaslattevő tagfüggvénynek, a \textit{suggest( )}-nek adjuk át inputként, ami javasol egy új pontot, az \textit{x\_probe}-ot a következő kiértékelésre. Ebben a \textit{suggest( )}-ben egy \textit{argmax} vizsgálat történik egy akvizíciós függvényre, az \textit{acq\_max}-ra. Ez a vizsgálat két lépésből áll, elsőként egyenletes eloszlással felvesztünk mintavételi pontokat a \textit{UtilityFunction}-ból a paramétertartomány határain belül, alapbeállításként $10^{5}$ darabot. Második lépésként \textit{L-BFGS-B} optimalizációs metódus futtatunk le minden mintavételezett pontra. Egy ciklusban kiválasztjuk a legnagyobbat, ezzel térünk vissza, ez lesz \textit{x\_probe}, a javasolt új kiértékelési hely.
+		A \textit{maximize( )} iterációs ciklusának harmadik lépése maga a kiértékelés, erre a \textit{probe( )} tagfüggvény szolgál, ami az általunk megadott költségfüggvényt futtatja le a kiszámolt új \textit{x\_probe} helyen. Ezt a három iterációs lépést folytatja a kód a meghatározott iterációszámig.
+	
+		Az \textit{L-BFGS-B} optimalizáló solver nem ebben a könyvtárban van megírva, hanem a \textit{scipy.optimizer} tartalmazza. Ez egy minimalizálási feladatokra készített másodrendű optimalizációs algoritmus, az \textit{L-BFGS} kiterjesztése korlátok kezelésére. Feloldva a rövidítést a Limited-memory Broyden-Fletcher-Goldfarb-Shanno algoritmus egy kvázi-Newton módszer, másodrendű deriváltak közelítésére hasznos, ahol az közvetlenül nehéz kiszámolni. Konkretizálva ez azt jelenti, hogy nem számolja ki a Hesse-mátrixot, csak annak inverzét közelíti. A módszer nevében az L előtag a limitált memóriára utal, azaz mindig csak az elmúlt $m$ lépés koordináta- és gradiensvektorát tárolja el. Ez a memóriagazdálkodás fontos, különösen az \textit{acq\_max} függvényben, ahol mind a $10^{5}$ mintavételi pontra elvégezzük az \textit{L-BFGS-B}-t.
+	
 \section{A probléma átalakítása}
 	\subsection{Impedanciák és admittanciák}
 	\subsection{Láncparaméterek}
