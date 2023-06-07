@@ -11,3 +11,5 @@ software/__pycache__
 *.toc
 prezi/output.txt
 .idea
+*.xmpi
+*.xmpdata

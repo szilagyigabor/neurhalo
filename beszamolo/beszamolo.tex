@@ -29,11 +29,12 @@
 %\usepackage[hyphens]{url}
 %\usepackage{multirow}
 %\usepackage{booktabs}
+\usepackage{circuitikz}
 \usepackage{hyperref}
 \usepackage{listings}
 %\usepackage{cite}
 %\usepackage{csquotes}
-\usepackage{inconsolata}
+%\usepackage{inconsolata}
 \usepackage{siunitx}
 \usepackage{xcolor}
 \usepackage[a-3u]{pdfx}
@@ -122,11 +123,161 @@ formulák egyrészt csak közelítések, azaz nem írják le pontosan az $L$ és
 	
 		Az \textit{L-BFGS-B} optimalizáló solver nem ebben a könyvtárban van megírva, hanem a \textit{scipy.optimizer} tartalmazza. Ez egy minimalizálási feladatokra készített másodrendű optimalizációs algoritmus, az \textit{L-BFGS} kiterjesztése korlátok kezelésére. Feloldva a rövidítést a Limited-memory Broyden-Fletcher-Goldfarb-Shanno algoritmus egy kvázi-Newton módszer, másodrendű deriváltak közelítésére hasznos, ahol az közvetlenül nehéz kiszámolni. Konkretizálva ez azt jelenti, hogy nem számolja ki a Hesse-mátrixot, csak annak inverzét közelíti. A módszer nevében az L előtag a limitált memóriára utal, azaz mindig csak az elmúlt $m$ lépés koordináta- és gradiensvektorát tárolja el. Ez a memóriagazdálkodás fontos, különösen az \textit{acq\_max} függvényben, ahol mind a $10^{5}$ mintavételi pontra elvégezzük az \textit{L-BFGS-B}-t.
 	
-\section{A probléma átalakítása}
-	\subsection{Impedanciák és admittanciák}
+\section{A célfüggvény felírása}
+    A célfüggvényünket olyan formában definiáltuk, hogy az adott specifikációnak jobban megfelelő szűrőparaméterekhez nagyobb számot rendeljen. A specifikációban frekvenciasávok és a hozzájuk elvárt minimális vagy maximális átvitel van megadva. Az átvitel itt a teljes kétportú (vagyis négypólusú) rendszer szórási mátrixának (S-mátrixának) egyik elemét, név szerint az $S_{21}$-et jelenti. Mivel ez a reaktív elemek jelenléte miatt egy komplex szám, ennek az abszolút értékét vizsgáljuk, a specifikációbeli korlátok is az abszolút értékre vonatkoznak. Az $S_{21}$ paraméter egy frekvenciafüggő mennyiség, ami azt az információt hordozza, hogy ha az 1-es porton (kapun) beküldünk a szűrőbe egy adott amplitúdójú és frekvenciájú szinuszos feszültséghullámot, akkor az a rendszer 2-es portján milyen amplitúdójú és fázisú kimenő feszültséghullámot eredményez. Az $S_{21}$ komplex fázisa a két feszültséghullám relatív fázisát fejezi ki, ez számunkra nem érdekes, ezért vesszük az abszolút értéket. Ha $|S_{21}|(f) = 1$, akkor a szűrő az adott $f$ frekvencián nem csillapít, de nem is erősít, tehát tökéletesen átereszti a rajta keresztülküldött jelet, legfeljebb más fázisban. Ez lenne a szűrő ideális viselkedése áteresztő sávban. Ha pedig $|S_{21}|(f) = 0$, akkor a beküldött jelből semmit nem enged át, azt általános esetben vagy elnyeli, vagy visszaveri, de mivel mi veszteségmentes, LC szűrőkkel foglalkoztunk, itt az elnyelés nem jöhet szóba. Ez utóbbi pedig az ideális viselkedés záró sávban. Természetesen véges frekvencián és véges elemértékekkel egyik szélső eset sem megvalósítható, még az ideális LC komponensekkel sem, amelyekkel mi számolunk. A szűrő tehát mindig valamilyen 0 és 1 közötti $|S_{21}|$-et fog mutatni bármilyen frekvencián és bármilyen behelyettesített elemértékek mellett.
+
+    A célfüggvényünket, vagyis $c(\mathbf{x})$-t, ahol $\mathbf{x}$ a behelyettesített elemértékek vektora, egy összeggel definiáljuk. Az összegben diszkrét frekvenciákon felvett hibaértékeket, $h(f,\mathbf{x})$-ket adunk össze.
+    \begin{equation}
+        c(\mathbf{x}) = \sum_{i=1}^{N_f} h(f_i,\mathbf{x})
+    \end{equation}
+    A vizsgált diszkrét $f_i$ frekvenciákat logaritmikusan vettük fel a legkisebb és a legnagyobb specifikált frekvencia között, a kiértékelt frekvenciák száma, $N_f$ megadható a specifikáció definiálásakor a programunkban. Ha egy adott frekvencián a kiszámolt $S(f)=|S_{21}|(f)$ kisebb, mint a megadott maximum, $S_{max}(f)$ vagy hasonlóan, ha nagyobb, mint a megadott minimum, $S_{min}(f)$, akkor a célfüggvény értékét nem változtatjuk az $f_i$ frekvencián mutatott viselkedés alapján, itt nem büntetünk. Ez egyben azt is jelenti, hogy az adott diszkrét frekvencián megfelel a specifikációnak a szűrő. Ellenkező esetben minél jobban belóg az $S(f)$ a tiltott zónába, annál nagyobb abszolút értékű negatív szám lesz $h(f,\mathbf{x})$ értéke. A fent vázolt összegzős módszerrel egy olyan mennyiséget kapunk, ami az $S(f)$ átviteli függvény tiltott zónákba való belógásának integrálját közelíti. Hogy ez a belógás, vagyis a $h(f,\mathbf{x})$ pontosabban mit takar, később fejtjük ki \aref{sec:celfuggveny_javitas}. fejezetben.
+    \subsection{A hálózat kapcsolási rajza}
+        A hálózatnak gyakorlatilag a kapcsolási rajza adott L és C elemértékekkel, innen kell valahogyan eljutni az $|S_{21}|$ paraméterig. Olyan struktúrájú szűrőt választottunk, amivel szűrőkarakterisztikák széles köre megvalósítható. Alapvetően egy periodikus szerkezetű kapcsolásról van szó, de az egyes blokkokban, amik egymás után vannak kapcsolva, külön meg lehet adni az elemértékeket, eleve azt is, hogy az adott pozícióban van-e kondenzátor vagy induktivitás. A programkódunk végleges verziójában legfeljebb 3 db ilyen blokk használható, de a kód minimális módosításával bővíthető még több blokkal szükség szerint. Egy ilyen blokk kapcsolási rajza \aref{fig:egyseg_kapcsolas}. ábrán látható.
+        \begin{figure}
+            \centering
+            \begin{circuitikz}[] %[longL/.style = {cute inductor, inductors/scale=0.75, inductors/width=1.6, inductors/coils=9}]
+                \draw (-0.5,0)
+                to[short, o-*] (2,0)
+                to[short, -*] (2,0.5)
+                to[short, -] (1,0.5);
+                \draw (1,2.5)
+                to[C, l=$C_{i,p}$] (1,0.5);
+                \draw (2,2.5)
+                to[short, -] (3,2.5)
+                to[L, l=$L_{i,p}$] (3,0.5)
+                to[short, -] (2,0.5);
+                \draw (-0.5,3)
+                to[short, o-*] (2,3)
+                to[short, -*] (2,2.5)
+                to[short, -] (1,2.5);
+                \draw (2,0)
+                to[short, -o] (8,0);
+                \draw (2,3)
+                to[short, -*] (5,3)
+                to[short, -] (5,2)
+                to[L, a=$L_{i,s}$] (7,2)
+                to[short, -] (7,3);
+                \draw (5,3)
+                to[short, -] (5,4)
+                to[C, a=$C_{i,s}$] (7,4)
+                to[short, -*] (7,3)
+                to[short, -o] (8,3);
+                \draw[thick,red] (0,-0.5) rectangle (7.5,5);
+                \draw (-1,1.5) node{1. port};
+                \draw (8.5,1.5) node{2. port};
+            \end{circuitikz}
+            \caption{Az optimalizálandó szűrő $i$-edik egysége}
+            \label{fig:egyseg_kapcsolas}
+        \end{figure}
+        Ahogy az ábrán is látszik, az egységhálózat egy kétkapu, amiben egy párhuzamos és egy soros LC rezgőkör van. Ez csak abban az esetben néz ki pontosan így, ha mind a négy paraméterértéket beállítjuk. Ha egyes komponenseket nem használunk, akkor azokat szakadással, vagy rövidzárral helyettesíti a program, ahogy annak a teljes hálózat szempontjából értelme van. Erre láthatunk néhány példát \aref{fig:egyseg_parh_LC}. \ref{fig:egyseg_sor_LC}. és \ref{fig:egyseg_alulatereszto}. ábrán.
+        \begin{figure}
+            \centering
+            \begin{circuitikz}[] %[longL/.style = {cute inductor, inductors/scale=0.75, inductors/width=1.6, inductors/coils=9}]
+                \draw (-0.5,0)
+                to[short, o-*] (2,0)
+                to[short, -*] (2,0.5)
+                to[short, -] (1,0.5);
+                \draw (1,2.5)
+                to[C, l=$C_{i,p}$] (1,0.5);
+                \draw (2,2.5)
+                to[short, -] (3,2.5)
+                to[L, l=$L_{i,p}$] (3,0.5)
+                to[short, -] (2,0.5);
+                \draw (-0.5,3)
+                to[short, o-*] (2,3)
+                to[short, -*] (2,2.5)
+                to[short, -] (1,2.5);
+                \draw (2,0)
+                to[short, -o] (8,0);
+                \draw (2,3)
+                to[short, -*] (5,3)
+                to[short, -] (5,2)
+                to[short, -] (7,2)
+                to[short, -] (7,3);
+                \draw (5,3)
+                to[short, -] (5,4)
+                to[openbarrier] (7,4)
+                to[short, -*] (7,3)
+                to[short, -o] (8,3);
+                \draw[thick,red] (0,-0.5) rectangle (7.5,5);
+            \end{circuitikz}
+            \caption{Az egységhálózat párhuzamosan kötött párhuzamos LC rezgőkörnek használva. Itt érdekesség, hogy a soros ágban egyik alkatrészt sem használjuk, mégis összesen egy rövidzárral vannak helyettesítve, mivel ennek a helyettesítésnek van értelme.}
+            \label{fig:egyseg_parh_LC}
+        \end{figure}
+        \begin{figure}
+            \centering
+            \begin{circuitikz}[] %[longL/.style = {cute inductor, inductors/scale=0.75, inductors/width=1.6, inductors/coils=9}]
+                \draw (-0.5,0)
+                to[short, o-*] (2,0)
+                to[short, -*] (2,0.5)
+                to[short, -] (1,0.5);
+                \draw (1,2.5)
+                to[openbarrier] (1,0.5);
+                \draw (2,2.5)
+                to[short, -] (3,2.5)
+                to[openbarrier] (3,0.5)
+                to[short, -] (2,0.5);
+                \draw (-0.5,3)
+                to[short, o-*] (2,3)
+                to[short, -*] (2,2.5)
+                to[short, -] (1,2.5);
+                \draw (2,0)
+                to[short, -o] (8,0);
+                \draw (2,3)
+                to[short, -*] (5,3)
+                to[short, -] (5,2)
+                to[L, a=$L_{i,s}$] (7,2)
+                to[short, -] (7,3);
+                \draw (5,3)
+                to[short, -] (5,4)
+                to[C, a=$C_{i,s}$] (7,4)
+                to[short, -*] (7,3)
+                to[short, -o] (8,3);
+                \draw[thick,red] (0,-0.5) rectangle (7.5,5);
+            \end{circuitikz}
+            \caption{Az egységhálózat sorosan kötött párhuzamos LC rezgőkörnek használva.}
+            \label{fig:egyseg_sor_LC}
+        \end{figure}
+        \begin{figure}
+            \centering
+            \begin{circuitikz}[] %[longL/.style = {cute inductor, inductors/scale=0.75, inductors/width=1.6, inductors/coils=9}]
+                \draw (-0.5,0)
+                to[short, o-*] (2,0)
+                to[short, -*] (2,0.5)
+                to[short, -] (1,0.5);
+                \draw (1,2.5)
+                to[C, l=$C_{i,p}$] (1,0.5);
+                \draw (2,2.5)
+                to[short, -] (3,2.5)
+                to[openbarrier] (3,0.5)
+                to[short, -] (2,0.5);
+                \draw (-0.5,3)
+                to[short, o-*] (2,3)
+                to[short, -*] (2,2.5)
+                to[short, -] (1,2.5);
+                \draw (2,0)
+                to[short, -o] (8,0);
+                \draw (2,3)
+                to[short, -*] (5,3)
+                to[short, -] (5,2)
+                to[L, a=$L_{i,s}$] (7,2)
+                to[short, -] (7,3);
+                \draw (5,3)
+                to[short, -] (5,4)
+                to[openbarrier] (7,4)
+                to[short, -*] (7,3)
+                to[short, -o] (8,3);
+                \draw[thick,red] (0,-0.5) rectangle (7.5,5);
+            \end{circuitikz}
+            \caption{Az egységhálózat elsőrendű LC aluláteresztő szűrőnek használva.}
+            \label{fig:egyseg_alulatereszto}
+        \end{figure}
+    \subsection{Impedanciák és admittanciák}
+        A célfüggvény számításának logikusan következő lépése, hogy az elemértékekből egy-egy diszkrét frekvencián helyettesítő impedanciát számolunk.
 	\subsection{Láncparaméterek}
 	\subsection{Szórási paraméterek}
-\section{A célfüggvény}
+\section{A célfüggvény javítása}
+    \label{sec:celfuggveny_javitas}
 	\subsection{Az első verzió és a problémái}
 	\subsection{A paraméterek logaritmizálása}
 	\subsection{A függvényérték logaritmizálása}
