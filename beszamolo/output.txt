@@ -14,8 +14,6 @@ LaTeX Warning: Tab has been converted to Blank Space.
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2021/10/04 v1.4n Standard LaTeX document class
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/size12.clo))
-(/usr/local/texlive/2022/texmf-dist/tex/latex/ucs/ucs.sty
-(/usr/local/texlive/2022/texmf-dist/tex/latex/ucs/data/uni-global.def))
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/fontenc.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/inputenc.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/generic/babel/babel.sty
@@ -37,6 +35,10 @@ For additional information on amsmath, use the `?' option.
 (/usr/local/texlive/2022/texmf-dist/tex/latex/graphics/trig.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)
 (/usr/local/texlive/2022/texmf-dist/tex/latex/graphics-def/pdftex.def)))
+(/usr/local/texlive/2022/texmf-dist/tex/latex/csquotes/csquotes.sty
+(/usr/local/texlive/2022/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+(/usr/local/texlive/2022/texmf-dist/tex/latex/csquotes/csquotes.def)
+(/usr/local/texlive/2022/texmf-dist/tex/latex/csquotes/csquotes.cfg))
 (/usr/local/texlive/2022/texmf-dist/tex/latex/caption/subcaption.sty
 (/usr/local/texlive/2022/texmf-dist/tex/latex/caption/caption.sty
 (/usr/local/texlive/2022/texmf-dist/tex/latex/caption/caption3.sty)))
@@ -220,8 +222,7 @@ ty (/usr/local/texlive/2022/texmf-dist/tex/latex/kvoptions/kvoptions.sty)))
 (/usr/local/texlive/2022/texmf-dist/tex/latex/listings/lstmisc.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/latex/listings/listings.cfg))
 (/usr/local/texlive/2022/texmf-dist/tex/latex/siunitx/siunitx.sty
-(/usr/local/texlive/2022/texmf-dist/tex/latex/translations/translations.sty
-(/usr/local/texlive/2022/texmf-dist/tex/latex/etoolbox/etoolbox.sty))
+(/usr/local/texlive/2022/texmf-dist/tex/latex/translations/translations.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/latex/tools/array.sty))
 (/usr/local/texlive/2022/texmf-dist/tex/latex/pdfx/pdfx.sty
 (/usr/local/texlive/2022/texmf-dist/tex/generic/iftex/ifpdf.sty)
@@ -266,42 +267,69 @@ Using XMP template file: pdfa.xmp
 (/usr/local/texlive/2022/texmf-dist/tex/latex/listings/lstlang1.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def)
 No file beszamolo.aux.
-(/usr/local/texlive/2022/texmf-dist/tex/latex/ucs/ucsencs.def)
 (/usr/local/texlive/2022/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 ) (/usr/local/texlive/2022/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 (/usr/local/texlive/2022/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
-(/usr/local/texlive/2022/texmf-dist/tex/latex/base/article.cls) [1]
+(/usr/local/texlive/2022/texmf-dist/tex/latex/base/article.cls)
 (/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsa.fd)
 (/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsb.fd)
 
-LaTeX Warning: Reference `xyz' on page 2 undefined on input line 111.
+LaTeX Warning: No \author given.
+
+[1]
+No file beszamolo.toc.
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.114 \begin{align*}
+                     [1]
+
+LaTeX Warning: Reference `xyz' on page 2 undefined on input line 124.
 
 [2] [3]
 
 LaTeX Warning: Reference `sec:celfuggveny_javitas' on page 4 undefined on input
- line 133.
+ line 146.
 
 
 LaTeX Warning: Reference `fig:egyseg_kapcsolas' on page 4 undefined on input li
-ne 135.
+ne 148.
 
 
 LaTeX Warning: Reference `fig:egyseg_parh_LC' on page 4 undefined on input line
- 172.
+ 185.
 
 
 LaTeX Warning: Reference `fig:egyseg_sor_LC' on page 4 undefined on input line 
-172.
+185.
 
 
 LaTeX Warning: Reference `fig:egyseg_alulatereszto' on page 4 undefined on inpu
-t line 172.
+t line 185.
 
-[4] [5] [6] (/usr/local/texlive/2022/texmf-dist/tex/latex/base/t1cmtt.fd)
-(../software/LC_opt_defs.py [7] [8]) [9] (./beszamolo.aux)
+
+LaTeX Warning: Reference `fig:impedancia' on page 4 undefined on input line 289
+.
+
+[4] [5]
+
+LaTeX Warning: Reference `fig:kaszkad' on page 6 undefined on input line 324.
+
+[6]
+
+LaTeX Warning: Reference `subsec:lancparameterek' on page 7 undefined on input 
+line 350.
+
+
+LaTeX Warning: Citation `lancpar_spar' on page 7 undefined on input line 350.
+
+(/usr/local/texlive/2022/texmf-dist/tex/latex/base/t1cmtt.fd) [7]
+(../software/LC_opt_defs.py [8] [9]) [10] (./beszamolo.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -313,26 +341,30 @@ Package rerunfilecheck Warning: File `beszamolo.out' has changed.
 (rerunfilecheck)                Rerun to get outlines right
 (rerunfilecheck)                or use package `bookmark'.
 
- ){/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
-</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><
-/usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></
-usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></u
-sr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr
-/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/l
-ocal/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/loc
-al/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/
-texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/t
-exlive/2022/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/tex
-live/2022/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texli
-ve/2022/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texlive
-/2022/texmf-dist/fonts/type1/public/cm-super/sfrm0600.pfb></usr/local/texlive/2
-022/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/202
-2/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local/texlive/2022/
-texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2022/te
-xmf-dist/fonts/type1/public/cm-super/sfrm2488.pfb></usr/local/texlive/2022/texm
-f-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/2022/texmf-
-dist/fonts/type1/public/cm-super/sftt0800.pfb>
-Output written on beszamolo.pdf (9 pages, 336894 bytes).
+ )
+(see the transcript file for additional information){/usr/local/texlive/2022/te
+xmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/local/texlive/2022/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2022/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2022/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2022/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2022/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2022/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2022/texmf-dist/font
+s/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2022/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2022/texmf-dist/fonts/t
+ype1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2022/texmf-dist/fon
+ts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2022/texmf-dist/fonts
+/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2022/texmf-dist/fonts/t
+ype1/public/cm-super/sfbx1728.pfb></usr/local/texlive/2022/texmf-dist/fonts/typ
+e1/public/cm-super/sfrm0600.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1
+/public/cm-super/sfrm1200.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/p
+ublic/cm-super/sfrm1440.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/pub
+lic/cm-super/sfrm1728.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/publi
+c/cm-super/sfrm2488.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/
+cm-super/sfti1200.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm
+-super/sftt0800.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-s
+uper/sftt1200.pfb>
+Output written on beszamolo.pdf (11 pages, 384551 bytes).
 Transcript written on beszamolo.log.
 This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex)
  restricted \write18 enabled.
@@ -350,8 +382,6 @@ LaTeX Warning: Tab has been converted to Blank Space.
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2021/10/04 v1.4n Standard LaTeX document class
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/size12.clo))
-(/usr/local/texlive/2022/texmf-dist/tex/latex/ucs/ucs.sty
-(/usr/local/texlive/2022/texmf-dist/tex/latex/ucs/data/uni-global.def))
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/fontenc.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/inputenc.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/generic/babel/babel.sty
@@ -373,6 +403,10 @@ For additional information on amsmath, use the `?' option.
 (/usr/local/texlive/2022/texmf-dist/tex/latex/graphics/trig.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)
 (/usr/local/texlive/2022/texmf-dist/tex/latex/graphics-def/pdftex.def)))
+(/usr/local/texlive/2022/texmf-dist/tex/latex/csquotes/csquotes.sty
+(/usr/local/texlive/2022/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+(/usr/local/texlive/2022/texmf-dist/tex/latex/csquotes/csquotes.def)
+(/usr/local/texlive/2022/texmf-dist/tex/latex/csquotes/csquotes.cfg))
 (/usr/local/texlive/2022/texmf-dist/tex/latex/caption/subcaption.sty
 (/usr/local/texlive/2022/texmf-dist/tex/latex/caption/caption.sty
 (/usr/local/texlive/2022/texmf-dist/tex/latex/caption/caption3.sty)))
@@ -556,8 +590,7 @@ ty (/usr/local/texlive/2022/texmf-dist/tex/latex/kvoptions/kvoptions.sty)))
 (/usr/local/texlive/2022/texmf-dist/tex/latex/listings/lstmisc.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/latex/listings/listings.cfg))
 (/usr/local/texlive/2022/texmf-dist/tex/latex/siunitx/siunitx.sty
-(/usr/local/texlive/2022/texmf-dist/tex/latex/translations/translations.sty
-(/usr/local/texlive/2022/texmf-dist/tex/latex/etoolbox/etoolbox.sty))
+(/usr/local/texlive/2022/texmf-dist/tex/latex/translations/translations.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/latex/tools/array.sty))
 (/usr/local/texlive/2022/texmf-dist/tex/latex/pdfx/pdfx.sty
 (/usr/local/texlive/2022/texmf-dist/tex/generic/iftex/ifpdf.sty)
@@ -601,44 +634,61 @@ Using XMP template file: pdfa.xmp
 <<pdfa.xmpi>>)
 (/usr/local/texlive/2022/texmf-dist/tex/latex/listings/lstlang1.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def)
-(./beszamolo.aux) (/usr/local/texlive/2022/texmf-dist/tex/latex/ucs/ucsencs.def
-) (/usr/local/texlive/2022/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+(./beszamolo.aux)
+(/usr/local/texlive/2022/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 ) (/usr/local/texlive/2022/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 (/usr/local/texlive/2022/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 (./beszamolo.out) (./beszamolo.out)
-(/usr/local/texlive/2022/texmf-dist/tex/latex/base/article.cls) [1]
+(/usr/local/texlive/2022/texmf-dist/tex/latex/base/article.cls)
 (/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsa.fd)
 (/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsb.fd)
 
-LaTeX Warning: Reference `xyz' on page 2 undefined on input line 111.
+LaTeX Warning: No \author given.
 
-[2] [3] [4] [5] [6]
-(/usr/local/texlive/2022/texmf-dist/tex/latex/base/t1cmtt.fd)
-(../software/LC_opt_defs.py [7] [8]) [9] (./beszamolo.aux)
+[1] (./beszamolo.toc)
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.110 		
+         [1]
+
+LaTeX Warning: Reference `xyz' on page 2 undefined on input line 124.
+
+[2] [3] [4] [5] [6] [7]
+(/usr/local/texlive/2022/texmf-dist/tex/latex/base/t1cmtt.fd) [8]
+(../software/LC_opt_defs.py [9] [10]) [11] (./beszamolo.aux)
 
 LaTeX Warning: There were undefined references.
 
- ){/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
-</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><
-/usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></
-usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></u
-sr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr
-/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/l
-ocal/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/loc
-al/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/
-texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/t
-exlive/2022/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/tex
-live/2022/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texli
-ve/2022/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texlive
-/2022/texmf-dist/fonts/type1/public/cm-super/sfrm0600.pfb></usr/local/texlive/2
-022/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/202
-2/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local/texlive/2022/
-texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2022/te
-xmf-dist/fonts/type1/public/cm-super/sfrm2488.pfb></usr/local/texlive/2022/texm
-f-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/2022/texmf-
-dist/fonts/type1/public/cm-super/sftt0800.pfb>
-Output written on beszamolo.pdf (9 pages, 338004 bytes).
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ )
+(see the transcript file for additional information){/usr/local/texlive/2022/te
+xmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/local/texlive/2022/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2022/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2022/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2022/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2022/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2022/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2022/texmf-dist/font
+s/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2022/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2022/texmf-dist/fonts/t
+ype1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2022/texmf-dist/fon
+ts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2022/texmf-dist/fonts
+/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2022/texmf-dist/fonts/t
+ype1/public/cm-super/sfbx1728.pfb></usr/local/texlive/2022/texmf-dist/fonts/typ
+e1/public/cm-super/sfrm0600.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1
+/public/cm-super/sfrm1200.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/p
+ublic/cm-super/sfrm1440.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/pub
+lic/cm-super/sfrm1728.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/publi
+c/cm-super/sfrm2488.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/
+cm-super/sfti1200.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm
+-super/sftt0800.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-s
+uper/sftt1200.pfb>
+Output written on beszamolo.pdf (12 pages, 392669 bytes).
 Transcript written on beszamolo.log.

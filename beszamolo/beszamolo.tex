@@ -10,7 +10,7 @@
 
 \documentclass[a4paper,12pt,titlepage]{article}
 %\documentclass[a4paper,12pt,titlepage,draft]{article}
-\usepackage{ucs}
+%\usepackage{ucs}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[magyar]{babel}
@@ -19,6 +19,7 @@
 %\usepackage{mathtools} % for \ceil*{}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage{csquotes}
 %\usepackage[hang]{caption}
 \usepackage{subcaption}
 \usepackage{blkarray,booktabs,bigstrut} % a címkézett mátrixhoz
@@ -29,6 +30,7 @@
 %\usepackage[hyphens]{url}
 %\usepackage{multirow}
 %\usepackage{booktabs}
+%\usepackage[square,numbers]{natbib}
 \usepackage{circuitikz}
 \usepackage{hyperref}
 \usepackage{listings}
@@ -51,7 +53,12 @@
 \definecolor{mygray}{RGB}{240, 240, 240}
 \definecolor{mygreen}{RGB}{0, 140, 40}
 
-%\sisetup{range-phrase=--,range-units=single,output-decimal-marker={,},tight-spacing=true,print-unity-mantissa=false,}
+\sisetup{range-phrase=--,
+        range-units=single,
+        output-decimal-marker={,},
+        tight-spacing=true,
+        print-unity-mantissa=false,
+        }
 
 \lstset{ % General setup for the package
 	language=Python,
@@ -77,14 +84,20 @@
 \widowpenalty=10000 \clubpenalty=10000 %A fattyú- és árvasorok elkerülése
 \def\hyph{-\penalty0\hskip0pt\relax} % Kötőjeles szavak elválasztásának engedélyezése
 
-\begin{document}
-\begin{center}
-	\huge{Neurális hálózatok házi feladat beszámoló} \\
-	\vspace*{0.5cm}
+\newcommand\vect[1]{\underline{#1}}
+\newcommand\mat[1]{\underline{\underline{#1}}}
+
+\title{
+    \huge{Neurális hálózatok házi feladat beszámoló} \\
+	\vspace*{2cm}
 	\large{Pintér Bálint (I6QS0K), Szilágyi Gábor (NOMK01)}\\
-	\vspace*{0.5cm}
+	\vspace*{2cm}
 	\Large{Koncentrált paraméterű RF szűrő optimalizációja \\ aktív tanulással}
-\end{center}
+}
+
+\begin{document}
+\maketitle
+\tableofcontents
 \section{Bevezetés}
 	\subsection{Aktív tanulás}
 		A legtöbb neurális hálózatokat használó megoldás olyan problémára irányul, ahol sok rendelkezésre álló adat alapján kell a hálót betanítani egy feladat elvégzésére. Az a legtöbb esetben teljesül, hogy még több tanító adat felhasználásával jobb hálót lehetne tanítani, de ennek az extrém esetére tud megoldást nyújtani az aktív tanulás. A nem adathiányos problémáknál a rendelkezésre álló, címkézett adatpontok nagy részét felhasználva szokás tanítani a hálót, majd a fennmaradó adatpontokon ellenőrizni a háló teljesítőképességét olyan esetekre, amikkel nem találkozott a tanulás során. Az aktív tanulás folyamata ettől merőben eltér.
@@ -126,11 +139,11 @@ formulák egyrészt csak közelítések, azaz nem írják le pontosan az $L$ és
 \section{A célfüggvény felírása}
     A célfüggvényünket olyan formában definiáltuk, hogy az adott specifikációnak jobban megfelelő szűrőparaméterekhez nagyobb számot rendeljen. A specifikációban frekvenciasávok és a hozzájuk elvárt minimális vagy maximális átvitel van megadva. Az átvitel itt a teljes kétportú (vagyis négypólusú) rendszer szórási mátrixának (S-mátrixának) egyik elemét, név szerint az $S_{21}$-et jelenti. Mivel ez a reaktív elemek jelenléte miatt egy komplex szám, ennek az abszolút értékét vizsgáljuk, a specifikációbeli korlátok is az abszolút értékre vonatkoznak. Az $S_{21}$ paraméter egy frekvenciafüggő mennyiség, ami azt az információt hordozza, hogy ha az 1-es porton (kapun) beküldünk a szűrőbe egy adott amplitúdójú és frekvenciájú szinuszos feszültséghullámot, akkor az a rendszer 2-es portján milyen amplitúdójú és fázisú kimenő feszültséghullámot eredményez. Az $S_{21}$ komplex fázisa a két feszültséghullám relatív fázisát fejezi ki, ez számunkra nem érdekes, ezért vesszük az abszolút értéket. Ha $|S_{21}|(f) = 1$, akkor a szűrő az adott $f$ frekvencián nem csillapít, de nem is erősít, tehát tökéletesen átereszti a rajta keresztülküldött jelet, legfeljebb más fázisban. Ez lenne a szűrő ideális viselkedése áteresztő sávban. Ha pedig $|S_{21}|(f) = 0$, akkor a beküldött jelből semmit nem enged át, azt általános esetben vagy elnyeli, vagy visszaveri, de mivel mi veszteségmentes, LC szűrőkkel foglalkoztunk, itt az elnyelés nem jöhet szóba. Ez utóbbi pedig az ideális viselkedés záró sávban. Természetesen véges frekvencián és véges elemértékekkel egyik szélső eset sem megvalósítható, még az ideális LC komponensekkel sem, amelyekkel mi számolunk. A szűrő tehát mindig valamilyen 0 és 1 közötti $|S_{21}|$-et fog mutatni bármilyen frekvencián és bármilyen behelyettesített elemértékek mellett.
 
-    A célfüggvényünket, vagyis $c(\mathbf{x})$-t, ahol $\mathbf{x}$ a behelyettesített elemértékek vektora, egy összeggel definiáljuk. Az összegben diszkrét frekvenciákon felvett hibaértékeket, $h(f,\mathbf{x})$-ket adunk össze.
+    A célfüggvényünket, vagyis $c(\vect{x})$-t, ahol $\vect{x}$ a behelyettesített elemértékek vektora, egy összeggel definiáljuk. Az összegben diszkrét frekvenciákon felvett hibaértékeket, $h(f,\vect{x})$-ket adunk össze.
     \begin{equation}
-        c(\mathbf{x}) = \sum_{i=1}^{N_f} h(f_i,\mathbf{x})
+        c(\vect{x}) = \sum_{i=1}^{N_f} h(f_i,\vect{x})
     \end{equation}
-    A vizsgált diszkrét $f_i$ frekvenciákat logaritmikusan vettük fel a legkisebb és a legnagyobb specifikált frekvencia között, a kiértékelt frekvenciák száma, $N_f$ megadható a specifikáció definiálásakor a programunkban. Ha egy adott frekvencián a kiszámolt $S(f)=|S_{21}|(f)$ kisebb, mint a megadott maximum, $S_{max}(f)$ vagy hasonlóan, ha nagyobb, mint a megadott minimum, $S_{min}(f)$, akkor a célfüggvény értékét nem változtatjuk az $f_i$ frekvencián mutatott viselkedés alapján, itt nem büntetünk. Ez egyben azt is jelenti, hogy az adott diszkrét frekvencián megfelel a specifikációnak a szűrő. Ellenkező esetben minél jobban belóg az $S(f)$ a tiltott zónába, annál nagyobb abszolút értékű negatív szám lesz $h(f,\mathbf{x})$ értéke. A fent vázolt összegzős módszerrel egy olyan mennyiséget kapunk, ami az $S(f)$ átviteli függvény tiltott zónákba való belógásának integrálját közelíti. Hogy ez a belógás, vagyis a $h(f,\mathbf{x})$ pontosabban mit takar, később fejtjük ki \aref{sec:celfuggveny_javitas}. fejezetben.
+    A vizsgált diszkrét $f_i$ frekvenciákat logaritmikusan vettük fel a legkisebb és a legnagyobb specifikált frekvencia között, a kiértékelt frekvenciák száma, $N_f$ megadható a specifikáció definiálásakor a programunkban. Ha egy adott frekvencián a kiszámolt $S(f)=|S_{21}|(f)$ kisebb, mint a megadott maximum, $S_{max}(f)$ vagy hasonlóan, ha nagyobb, mint a megadott minimum, $S_{min}(f)$, akkor a célfüggvény értékét nem változtatjuk az $f_i$ frekvencián mutatott viselkedés alapján, itt nem büntetünk. Ez egyben azt is jelenti, hogy az adott diszkrét frekvencián megfelel a specifikációnak a szűrő. Ellenkező esetben minél jobban belóg az $S(f)$ a tiltott zónába, annál nagyobb abszolút értékű negatív szám lesz $h(f,\vect{x})$ értéke. A fent vázolt összegzős módszerrel egy olyan mennyiséget kapunk, ami az $S(f)$ átviteli függvény tiltott zónákba való belógásának integrálját közelíti. Hogy ez a belógás, vagyis a $h(f,\vect{x})$ pontosabban mit takar, később fejtjük ki \aref{sec:celfuggveny_javitas}. fejezetben.
     \subsection{A hálózat kapcsolási rajza}
         A hálózatnak gyakorlatilag a kapcsolási rajza adott L és C elemértékekkel, innen kell valahogyan eljutni az $|S_{21}|$ paraméterig. Olyan struktúrájú szűrőt választottunk, amivel szűrőkarakterisztikák széles köre megvalósítható. Alapvetően egy periodikus szerkezetű kapcsolásról van szó, de az egyes blokkokban, amik egymás után vannak kapcsolva, külön meg lehet adni az elemértékeket, eleve azt is, hogy az adott pozícióban van-e kondenzátor vagy induktivitás. A programkódunk végleges verziójában legfeljebb 3 db ilyen blokk használható, de a kód minimális módosításával bővíthető még több blokkal szükség szerint. Egy ilyen blokk kapcsolási rajza \aref{fig:egyseg_kapcsolas}. ábrán látható.
         \begin{figure}
@@ -273,16 +286,85 @@ formulák egyrészt csak közelítések, azaz nem írják le pontosan az $L$ és
             \label{fig:egyseg_alulatereszto}
         \end{figure}
     \subsection{Impedanciák és admittanciák}
-        A célfüggvény számításának logikusan következő lépése, hogy az elemértékekből egy-egy diszkrét frekvencián helyettesítő impedanciát számolunk.
+        A célfüggvény számításának logikusan következő lépése, hogy az elemértékekből egy-egy diszkrét frekvencián helyettesítő impedanciát számolunk. A kódban egyébként az egyes párhuzamos rezgőkörökre direkte határozzuk meg annak az eredő impedanciát (vagy admittanciát) az \textit{Impedance( )} és \textit{Admittance( )} függvények segítségével. Ezek után a helyettesítőkép \aref{fig:impedancia}. ábrán látható módon alakul.
+        \begin{figure}
+            \begin{center}
+                \begin{circuitikz}[] %[longL/.style = {cute inductor, inductors/scale=0.75, inductors/width=1.6, inductors/coils=9}]
+                    \draw (-0.5,0)
+                    to[short, o-*] (2,0)
+                    to[short, -] (2,0.5);
+                    \draw (2,2.5)
+                    to[xgeneric, l=$Y_{i,p}(f)$] (2,0.5);
+                    \draw (-0.5,3)
+                    to[short, o-*] (2,3)
+                    to[short, -] (2,2.5);
+                    \draw (2,0)
+                    to[short, -o] (8,0);
+                    \draw (2,3)
+                    to[short, -] (5,3)
+                    to[xgeneric, a=$Z_{i,s}(f)$] (7,3)
+                    to[short, -o] (8,3);
+                    \draw[thick,red] (0,-0.5) rectangle (7.5,3.5);
+                \end{circuitikz}
+            \end{center}
+            \caption{Helyettesítő impedancia és admittancia}
+            \label{fig:impedancia}
+        \end{figure}
+        Itt a paraméterértékek az alábbi képletek alapján adódnak. Természetesen külön le vannak kezelve azok az esetek, amikor valamelyik impedancia vagy admittancia 0-ra vagy $\infty$-re adódik és nem lehet direkt behelyettesíteni a képletekbe.
+        \begin{align}
+            Z_{i,p,L} & = i2\pi f\cdot L_{i,p} \\[3ex]
+            Z_{i,p,C} & = \dfrac{1}{i2\pi f\cdot C_{i,p}} \\[3ex]
+            Z_{i,s,L} & = i2\pi f\cdot L_{i,s} \\[3ex]
+            Z_{i,s,C} & = \dfrac{1}{i2\pi f\cdot C_{i,s}} \\[3ex]
+            Z_{i,s} & = \dfrac{Z_{i,s,C}\cdot Z_{i,s,L}}{Z_{i,s,C}+Z_{i,s,L}} \\[3ex]
+            Y_{i,p} &= \dfrac{Z_{i,p,C}+Z_{i,p,L}}{Z_{i,p,C}\cdot Z_{i,p,L}}
+        \end{align}
 	\subsection{Láncparaméterek}
+        \label{subsec:lancparameterek}
+        A következő lépés egy köztes számítás, ami az egyes egységblokkok kaszkádkapcsolásának számítását könnyíti meg. Ehhez a láncparamétereket hívjuk segítségül, amelyek az angol szakirodalomban ABCD-paraméterekként szerepelnek. A láncparaméterek mátrixa, vagyis $\mat{A} \in \mathbb{C}^{2\times2}$ lényegében a leírt rendszer két portján felvett feszültségek és áramok között teremt kapcsolatot, az impedanciaparaméterekhez (Z-paraméterek) nagyon hasonló módon. Egy adott frekvencián ezzel a $2\times2$-es mátrixszal teljesen leírható a hálózat. A feszültségek és áramok referenciairányai úgy vannak megválasztva a láncparaméterek felírásakor, hogy a kaszkádba kapcsolt kétportú hálózatok eredő láncparamétereit az összekapcsolt alegységek $\mat{A}$ mátrixainak szorzataként kaphatjuk meg, ahogy az \aref{fig:kaszkad}. ábrán látható.
+        \begin{align}
+            \mat{A} = \prod_{i}^{} \mat{A_{i}} = \begin{bmatrix}a_{11}~a_{12} \\ a_{21}~a_{22}\end{bmatrix} = \begin{bmatrix}A~B \\ C~D\end{bmatrix}
+        \end{align}
+        \begin{figure}
+            \centering
+            \begin{circuitikz}[] %[longL/.style = {cute inductor, inductors/scale=0.75, inductors/width=1.6, inductors/coils=9}]
+                \foreach \x in {1,...,5}
+                {
+                    \draw (\x+\x-0.5,0)
+                    to[short, o-] (\x+\x+0,0);
+                    \draw (\x+\x-0.5,1)
+                    to[short, o-] (\x+\x+0,1);
+                    \draw[thick,red] (\x+\x+0,-0.2) rectangle (\x+\x+1,1.2);
+                    \draw (\x+\x+1,0)
+                    to[short, -o] (\x+\x+1.5,0);
+                    \draw (\x+\x+1,1)
+                    to[short, -o] (\x+\x+1.5,1);
+                    \draw (\x+\x+0.5,0.5) node {$\mat{A_{\x}}$};
+                }
+                \draw[thick,green] (1.75,-0.5) rectangle (11.25,1.5);
+            \end{circuitikz}
+            \caption{A hálózat egységeinek kaszkád kapcsolása.}
+            \label{fig:kaszkad}
+        \end{figure}
 	\subsection{Szórási paraméterek}
+        Végül elérkeztünk a szórási paraméterek számításához. \Aref{subsec:lancparameterek}. pontban tárgyalt láncparaméterek használatát az is indokolja, hogy létezik egyszerű képlet az $\mat{A}$ mátrixból $\mat{S}$ mátrixba való áttérésre. Az $\mat{S}$ mátrix minden elemére külön analitikus képlet van \cite{lancpar_spar}, de mivel nekünk csak az $S_{21}$-re van szükségünk, így csak az erre a konkrét paraméterre vonatkozót kellett használnunk. Az S-paraméterek használatához minden portra definiálni kell egy normalizáló impedanciát, $Z_0$-t. Ezt mi a konvencionálisnak számító \qty{50}{\ohm}-ra választottuk, de végeredményben ennek nincs különösebb jelentőssége. 
+    \begin{equation}
+        S_{21} = \dfrac{2}{A+B/Z_0+CZ_0+D}
+    \end{equation}
 \section{A célfüggvény javítása}
     \label{sec:celfuggveny_javitas}
 	\subsection{Az első verzió és a problémái}
 	\subsection{A paraméterek logaritmizálása}
 	\subsection{A függvényérték logaritmizálása}
+
+\begin{thebibliography}{1}
+    \bibitem{lancpar_spar} Láncparaméter -- S-paraméter konverzió: \url{https://www.rfwireless-world.com/Terminology/abcd-matrix-vs-s-matrix.html}
+\end{thebibliography}
+
 \clearpage
 \appendix
 \section{Az általunk írt specifikáció osztály}
 	\lstinputlisting{../software/LC_opt_defs.py}
 \end{document}
+%%%% refs
+% abcd to s parameters: https://www.rfwireless-world.com/Terminology/abcd-matrix-vs-s-matrix.html
