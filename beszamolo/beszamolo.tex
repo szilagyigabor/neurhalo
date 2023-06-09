@@ -472,8 +472,12 @@ spec.cost(plot=True, par1L = math.log(9e-4), ser1C = math.log(9e-6), ser2L = mat
             \label{fig:bonyi_subopt}
         \end{figure}
         
-        
         A második példa arra világít rá, hogy a neurális hálós optimalizáló nem csodaszer, csak a kezelője által meghatározott tartományon tud optimalizálni a megadott komplexitásig. A méretezés hosszadalmas folyamatát le tudja rövidíteni, de a tervező dolga figyelembe venni a szűrőkarakterisztika alapvető tulajdonságait.
+
+\section{Összegzés}
+	A fentebb felvázolt feladatra egyszerűbb esetekben és könnyen teljesíthető specifikációk mellett nagyon gyorsan és hatékonyan találtunk megoldást, ahol egyébként analitikusan is könnyen méretezhető és tervezhető a rendszer. Azt tapasztaltuk, hogy elég nehéz hasraütésszerűen olyan specifikációt adni, ami egyáltalán teljesíthető ilyen típusú LC szűrővel, de mégsem triviálisan megengedő. A feladat ötlete onnan adódott, hogy az SzHVT-s főszakirányunkon sokat foglalkoztunk nagyfrekvenciás áramkörökkel és elektromágneses szimulációkkal, emiatt szívesen kipróbáltuk, hogy ebben a témakörben mire tudunk jutni neurális hálók segítségével.
+
+	Az optimalizálás sikerességét az esetünkben főleg az korlátozta, hogy ahhoz, hogy esélye legyen a programnak jó megoldást találnia, már előre jól ki kellett találni a szűrő struktúráját, vagyis, hogy a lehetséges alkatrészek közül melyeket használjuk és melyeket ne. Ez főleg nagy paraméterszámnál, amikor különösebb meggondolás nélkül adtunk meg használandó alkatrészeket és értékhatárokat, volt problémás. Tehát arra nem alkalmas a program, hogy egy bonyolult szűrőspecifikációhoz kitaláljon magától egy szűrőt, hanem egészen konkrétan meg kell neki adni az alkalmazandó struktúrát. Azzal persze áthidalható lenne ez a probléma, ha optimalizálás közben a szűrő struktúrája is változtatható lenne, de ez lényegesen megnövelné a probléma dimenziószámát és olyan bonyolulttá tenné a fejlesztési feladatot, ami bőven túlmutatna egy féléves munkán. Elképzelhetőnek tartjuk, hogy van potenciál az EM szimuláció területén az aktív tanulásnak, de olyan formában, ahogy a félév során össze tudtuk egyeztetni a két témát, több hátránya van, mint előnye, ezért nem érdemes használni.
 
 \clearpage
 \begin{thebibliography}{9}
@@ -487,6 +491,6 @@ spec.cost(plot=True, par1L = math.log(9e-4), ser1C = math.log(9e-6), ser2L = mat
 \appendix
 \section{Az általunk írt specifikáció osztály}
 	\lstinputlisting{../software/LC_opt_defs.py}
+\section{Példakód az osztályunk használatára}
+	\lstinputlisting{../software/LC_opt_example.py}
 \end{document}
-%%%% refs
-% abcd to s parameters: https://www.rfwireless-world.com/Terminology/abcd-matrix-vs-s-matrix.html

@@ -375,11 +375,12 @@ LaTeX Warning: Reference `fig:bonyi' on page 12 undefined on input line 457.
 LaTeX Warning: Reference `fig:bonyi_subopt' on page 12 undefined on input line 
 467.
 
-[12 <./bonyi.pdf>] [13 <./bonyi_subopt.pdf>]
-Underfull \hbox (badness 3746) in paragraph at lines 480--481
+[12 <./bonyi.pdf>] [13 <./bonyi_subopt.pdf>] [14]
+Underfull \hbox (badness 3746) in paragraph at lines 484--485
 []\T1/cmr/m/n/12 L·ncparamÈter -- S-paramÈter kon-ver-ziÛ (el-Èr-ve 2023.06.07.
 ): [][]$\T1/cmtt/m/n/12 https : / / www .
-[14] (../software/LC_opt_defs.py [15] [16]) [17] (./beszamolo.aux)
+[15] (../software/LC_opt_defs.py [16] [17]) (../software/LC_opt_example.py)
+[18] (./beszamolo.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -414,7 +415,7 @@ c/cm-super/sfrm2488.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/
 cm-super/sfti1200.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm
 -super/sftt0800.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-s
 uper/sftt1200.pfb>
-Output written on beszamolo.pdf (18 pages, 439633 bytes).
+Output written on beszamolo.pdf (19 pages, 449178 bytes).
 Transcript written on beszamolo.log.
 This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex)
  restricted \write18 enabled.
@@ -703,22 +704,23 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.111 		
-         [1] [2] [3] [4] [5] [6] [7]
-(/usr/local/texlive/2022/texmf-dist/tex/latex/base/t1cmtt.fd) [8]
+l.109 	\subsection
+                  {Az optimaliz√°land√≥ probl√©ma} [1] [2] [3] [4] [5] [6]
+[7] [8] (/usr/local/texlive/2022/texmf-dist/tex/latex/base/t1cmtt.fd) [9]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[9] [10 <./atvitel_pelda.pdf> <./megoldas.pdf>] [11 <./alulatereszto.pdf>]
-[12 <./alulatereszto_opt.pdf>]
+[10 <./atvitel_pelda.pdf>]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[13 <./bonyi.pdf>] [14 <./bonyi_subopt.pdf>]
-Underfull \hbox (badness 3746) in paragraph at lines 480--481
+[11 <./megoldas.pdf>] [12 <./alulatereszto.pdf> <./alulatereszto_opt.pdf>]
+[13 <./bonyi.pdf>] [14 <./bonyi_subopt.pdf>] [15]
+Underfull \hbox (badness 3746) in paragraph at lines 484--485
 []\T1/cmr/m/n/12 L·ncparamÈter -- S-paramÈter kon-ver-ziÛ (el-Èr-ve 2023.06.07.
 ): [][]$\T1/cmtt/m/n/12 https : / / www .
-[15] (../software/LC_opt_defs.py [16] [17]) [18] (./beszamolo.aux)
+[16] (../software/LC_opt_defs.py [17] [18]) (../software/LC_opt_example.py)
+[19] (./beszamolo.aux)
 
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
@@ -745,5 +747,5 @@ c/cm-super/sfrm2488.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/
 cm-super/sfti1200.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm
 -super/sftt0800.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-s
 uper/sftt1200.pfb>
-Output written on beszamolo.pdf (19 pages, 458562 bytes).
+Output written on beszamolo.pdf (20 pages, 470006 bytes).
 Transcript written on beszamolo.log.
