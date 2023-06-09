@@ -53,11 +53,12 @@
 \definecolor{mygray}{RGB}{240, 240, 240}
 \definecolor{mygreen}{RGB}{0, 140, 40}
 
+% ez nekem valamiért akad, bocsi, hogy kiszedtem
 \sisetup{range-phrase=--,
         range-units=single,
         output-decimal-marker={,},
         tight-spacing=true,
-        print-unity-mantissa=false,
+%        print-unity-mantissa=false,
         }
 
 \lstset{ % General setup for the package
@@ -119,13 +120,13 @@ formulák egyrészt csak közelítések, azaz nem írják le pontosan az $L$ és
 		
 		A feladat innentől az, hogy olyan geometriai méreteket találjunk, amivel a komponensek pont az általunk kívánt $L$ és $C$ értékeket mutassák, ezzel a specifikációnak eleget tudjunk tenni. Esetünkben a nem analitikusan kiszámolható értékekhez numerikus megoldást kell keresni, amire egy jó megoldás, ha 3D véges elemes szimulációt készítünk. Egy-egy szimuláció futási ideje a megkövetelt precizitás és a rendelkezésünkre álló erőforrás függvényében változhat, de mindenképp több mint csupán egyetlen egyenlet kiértékelése. Éppen ezért szükséges az optimalizálást úgy végezni, hogy szempont legyen a minél kevesebbszer történű kiértékelés. 
 		
-		A fent leírtak az RF szűrőtervezés témakörében egy releváns problémát takarnak, munkánkban azonban nem 3D véges elemes szimulációkat használunk, nem geometriai paraméterek optimalizálását végezzük el. Tesszük mindezt egyrészt azért, mert a szimulációs szoftverek programozott vezérlése \textbf{kibaszott nehéz}, másrészt a neurális hálók szempontjából teljesen lényegtelen, hogy a kiértékelt függvényben mi történik. Azonban maga az optimalizálás amit csinálunk alkalmas egy ilyen feladatra, és érdemben tudja a tervezőt segíteni munkája során. Visszatérni tehát a koncentrált paraméterű, $L$ és $C$ elemeket tartalmazó hálózatra az optimalizáció szempontjából nem jelent kevesebb munkát, ebben az értelemben nem jár a feladat egyszerűsítésével.
+		A fent leírtak az RF szűrőtervezés témakörében egy releváns problémát takarnak, munkánkban azonban nem 3D véges elemes szimulációkat használunk, nem geometriai paraméterek optimalizálását végezzük el. Tesszük mindezt egyrészt azért, mert a szimulációs szoftverek programozott vezérlése meglehetősen nehéz, másrészt a neurális hálók szempontjából teljesen lényegtelen, hogy a kiértékelt függvényben mi történik. Azonban maga az optimalizálás amit csinálunk alkalmas egy ilyen feladatra, és érdemben tudja a tervezőt segíteni munkája során. Visszatérni tehát a koncentrált paraméterű, $L$ és $C$ elemeket tartalmazó hálózatra az optimalizáció szempontjából nem jelent kevesebb munkát, ebben az értelemben nem jár a feladat egyszerűsítésével.
 		
-		A feladathoz már csak egy lépés hiányzik, amivel a problémát át tudjuk alakítani egy szélsőérték keresésre. Ennek az alapgondolata az, hogy az elvárt és a kapott kimenet különbségét vesszük figyelembe egy büntetőfüggvény segítségével. Magát az optimalizálást ezen keresztül tudjuk megtenni, ennek a függvénynek a kifejtésére a \ref{xyz} részben kerül sor.
+		A feladathoz már csak egy lépés hiányzik, amivel a problémát át tudjuk alakítani egy szélsőérték keresésre. Ennek az alapgondolata az, hogy az elvárt és a kapott kimenet különbségét vesszük figyelembe egy büntetőfüggvény segítségével. Magát az optimalizálást ezen keresztül tudjuk megtenni, ennek a függvénynek a kifejtésére a későbbiekben kerül sor.
 		
 	\subsection{A felhasznált könyvtár}
 	
-		Bayes-optimalizáció megvalósításához már léteznek elkészített könyvtárak, így azt külön nem készítettük el, hanem felhasználtuk. Az általunk használt ingyenesen elérhető és letölthető \textit{Bayesian Optimization} könyvtár más, neurális hálózatokra készített, ugyancsak szabadon hozzáférhető könyvtárakon alapszik, itt most ennek a bemutatását adjuk.
+		Bayes-optimalizáció megvalósításához már léteznek elkészített könyvtárak, így azt külön nem készítettük el, hanem felhasználtuk. Az általunk használt ingyenesen elérhető és letölthető \textit{Bayesian Optimization} könyvtár más, neurális hálózatokra készített, ugyancsak szabadon hozzáférhető könyvtárakon alapszik \cite{scipy}, itt most ennek a bemutatását adjuk \cite{lancpar_spar}.
 		
 		A \textit{Bayesian Optimization} használata rendkívül egyszerű, összesen két dolgot kell megtennünk. Elsőként példányosítjuk a \textit{BayesianOptimization} osztályt, ami bemeneti paraméterként megkapja a maximalizálandó költségfüggvényt, illetve a határait annak a tartománynak, ahol a maximumot keresnie kell. Fontos kiemelni, hogy esetünkben a kapott és az elvárt kimenetek közötti minimalizálás a feladat, így a költségfüggvényben át kell térni maximumhely keresésre. 
 		
@@ -134,7 +135,7 @@ formulák egyrészt csak közelítések, azaz nem írják le pontosan az $L$ és
 		Frissítve a \textit{UtilityFunction}-t, egy javaslattevő tagfüggvénynek, a \textit{suggest( )}-nek adjuk át inputként, ami javasol egy új pontot, az \textit{x\_probe}-ot a következő kiértékelésre. Ebben a \textit{suggest( )}-ben egy \textit{argmax} vizsgálat történik egy akvizíciós függvényre, az \textit{acq\_max}-ra. Ez a vizsgálat két lépésből áll, elsőként egyenletes eloszlással felvesztünk mintavételi pontokat a \textit{UtilityFunction}-ból a paramétertartomány határain belül, alapbeállításként $10^{5}$ darabot. Második lépésként \textit{L-BFGS-B} optimalizációs metódus futtatunk le minden mintavételezett pontra. Egy ciklusban kiválasztjuk a legnagyobbat, ezzel térünk vissza, ez lesz \textit{x\_probe}, a javasolt új kiértékelési hely.
 		A \textit{maximize( )} iterációs ciklusának harmadik lépése maga a kiértékelés, erre a \textit{probe( )} tagfüggvény szolgál, ami az általunk megadott költségfüggvényt futtatja le a kiszámolt új \textit{x\_probe} helyen. Ezt a három iterációs lépést folytatja a kód a meghatározott iterációszámig.
 	
-		Az \textit{L-BFGS-B} optimalizáló solver nem ebben a könyvtárban van megírva, hanem a \textit{scipy.optimizer} tartalmazza. Ez egy minimalizálási feladatokra készített másodrendű optimalizációs algoritmus, az \textit{L-BFGS} kiterjesztése korlátok kezelésére. Feloldva a rövidítést a Limited-memory Broyden-Fletcher-Goldfarb-Shanno algoritmus egy kvázi-Newton módszer, másodrendű deriváltak közelítésére hasznos, ahol az közvetlenül nehéz kiszámolni. Konkretizálva ez azt jelenti, hogy nem számolja ki a Hesse-mátrixot, csak annak inverzét közelíti. A módszer nevében az L előtag a limitált memóriára utal, azaz mindig csak az elmúlt $m$ lépés koordináta- és gradiensvektorát tárolja el. Ez a memóriagazdálkodás fontos, különösen az \textit{acq\_max} függvényben, ahol mind a $10^{5}$ mintavételi pontra elvégezzük az \textit{L-BFGS-B}-t.
+		Az \textit{L-BFGS-B} optimalizáló solver nem ebben a könyvtárban van megírva, hanem a \textit{scipy.optimizer} tartalmazza \cite{scipy}. Ez egy minimalizálási feladatokra készített másodrendű optimalizációs algoritmus, az \textit{L-BFGS} kiterjesztése korlátok kezelésére. Feloldva a rövidítést a Limited-memory Broyden-Fletcher-Goldfarb-Shanno algoritmus egy kvázi-Newton módszer, másodrendű deriváltak közelítésére hasznos, ahol az közvetlenül nehéz kiszámolni. Konkretizálva ez azt jelenti, hogy nem számolja ki a Hesse-mátrixot, csak annak inverzét közelíti. A módszer nevében az L előtag a limitált memóriára utal, azaz mindig csak az elmúlt $m$ lépés koordináta- és gradiensvektorát tárolja el. Ez a memóriagazdálkodás fontos, különösen az \textit{acq\_max} függvényben, ahol mind a $10^{5}$ mintavételi pontra elvégezzük az \textit{L-BFGS-B}-t.
 	
 \section{A célfüggvény felírása}
     A célfüggvényünket olyan formában definiáltuk, hogy az adott specifikációnak jobban megfelelő szűrőparaméterekhez nagyobb számot rendeljen. A specifikációban frekvenciasávok és a hozzájuk elvárt minimális vagy maximális átvitel van megadva. Az átvitel itt a teljes kétportú (vagyis négypólusú) rendszer szórási mátrixának (S-mátrixának) egyik elemét, név szerint az $S_{21}$-et jelenti. Mivel ez a reaktív elemek jelenléte miatt egy komplex szám, ennek az abszolút értékét vizsgáljuk, a specifikációbeli korlátok is az abszolút értékre vonatkoznak. Az $S_{21}$ paraméter egy frekvenciafüggő mennyiség, ami azt az információt hordozza, hogy ha az 1-es porton (kapun) beküldünk a szűrőbe egy adott amplitúdójú és frekvenciájú szinuszos feszültséghullámot, akkor az a rendszer 2-es portján milyen amplitúdójú és fázisú kimenő feszültséghullámot eredményez. Az $S_{21}$ komplex fázisa a két feszültséghullám relatív fázisát fejezi ki, ez számunkra nem érdekes, ezért vesszük az abszolút értéket. Ha $|S_{21}|(f) = 1$, akkor a szűrő az adott $f$ frekvencián nem csillapít, de nem is erősít, tehát tökéletesen átereszti a rajta keresztülküldött jelet, legfeljebb más fázisban. Ez lenne a szűrő ideális viselkedése áteresztő sávban. Ha pedig $|S_{21}|(f) = 0$, akkor a beküldött jelből semmit nem enged át, azt általános esetben vagy elnyeli, vagy visszaveri, de mivel mi veszteségmentes, LC szűrőkkel foglalkoztunk, itt az elnyelés nem jöhet szóba. Ez utóbbi pedig az ideális viselkedés záró sávban. Természetesen véges frekvencián és véges elemértékekkel egyik szélső eset sem megvalósítható, még az ideális LC komponensekkel sem, amelyekkel mi számolunk. A szűrő tehát mindig valamilyen 0 és 1 közötti $|S_{21}|$-et fog mutatni bármilyen frekvencián és bármilyen behelyettesített elemértékek mellett.
@@ -347,7 +348,7 @@ formulák egyrészt csak közelítések, azaz nem írják le pontosan az $L$ és
             \label{fig:kaszkad}
         \end{figure}
 	\subsection{Szórási paraméterek}
-        Végül elérkeztünk a szórási paraméterek számításához. \Aref{subsec:lancparameterek}. pontban tárgyalt láncparaméterek használatát az is indokolja, hogy létezik egyszerű képlet az $\mat{A}$ mátrixból $\mat{S}$ mátrixba való áttérésre. Az $\mat{S}$ mátrix minden elemére külön analitikus képlet van \cite{lancpar_spar}, de mivel nekünk csak az $S_{21}$-re van szükségünk, így csak az erre a konkrét paraméterre vonatkozót kellett használnunk. Az S-paraméterek használatához minden portra definiálni kell egy normalizáló impedanciát, $Z_0$-t. Ezt mi a konvencionálisnak számító \qty{50}{\ohm}-ra választottuk. 
+        Végül elérkeztünk a szórási paraméterek számításához. \Aref{subsec:lancparameterek}. pontban tárgyalt láncparaméterek használatát az is indokolja, hogy létezik egyszerű képlet az $\mat{A}$ mátrixból $\mat{S}$ mátrixba való áttérésre. Az $\mat{S}$ mátrix minden elemére külön analitikus képlet van \cite{lancpar_spar}, de mivel nekünk csak az $S_{21}$-re van szükségünk, így csak az erre a konkrét paraméterre vonatkozót kellett használnunk. Az S-paraméterek használatához minden portra definiálni kell egy normalizáló impedanciát, $Z_0$-t. Ezt mi a konvencionálisnak számító $\SI{50}{\Omega}$-ra választottuk. 
     \begin{equation}
         S_{21} = \dfrac{2}{A+B/Z_0+CZ_0+D}
     \end{equation}
@@ -367,7 +368,7 @@ formulák egyrészt csak közelítések, azaz nem írják le pontosan az $L$ és
             \end{cases}
         \end{equation}
         Erre a felírásra teljesül, amit fentebb célként vázoltunk, vagyis, hogy minél jobban átlóg valamelyik határon a függvény görbéje, annál jóbban büntetjük és az egyáltalán nem belógó függvényt nem büntetjük. A hibafüggvényt is változtattuk később, de tapasztalatunk szerint már akár ilyen formában is használható lenne. Ebben a formában a $c(\vect{x})$ függvénnyel a fő probléma, hogy az $\vect{x}$ vektorban egyszerűen a tekercsek induktivitásai és a kondenzátorok kapacitásai szerepeltek H-ben és F-ban. Ez magában még nem hangzik problémásnak, de ehhez azt is figyelembe kell vennünk, hogy az eredményes optimalizáláshoz \emph{nagyságrendileg} elég széles tartományon belül kell megválasztania az optimalizáló algoritmusnak a következő kipróbálandó paraméterértéket.
-        Az \emph{Optimizer} objektum deklarálásakor meg kell adnunk a változtatható függvényparaméterek neveit és mindegyikhez azokat a határokat, amelyek közötti értékeket behelyettesíthet az optimalizálás során. Ezt a következőképpen lehet megadni \aref{fig:egyseg_alulatereszto}. ábrán vázolt elsőrendű aluláeresztő szűrő esetén, ha a kapacitás értékét \qtyrange{1e-6}{1e-3}{\farad} között, az induktivitás értékét pedig \qtyrange{1e-5}{1e-2}{\henry} között engedjük meg.
+        Az \emph{Optimizer} objektum deklarálásakor meg kell adnunk a változtatható függvényparaméterek neveit és mindegyikhez azokat a határokat, amelyek közötti értékeket behelyettesíthet az optimalizálás során. Ezt a következőképpen lehet megadni \aref{fig:egyseg_alulatereszto}. ábrán vázolt elsőrendű aluláeresztő szűrő esetén, ha a kapacitás értékét $10^{-6}$--$10^{-3}\si{F}$ között, az induktivitás értékét pedig $10^{-5}$--$10^{-2}\si{H}$ között engedjük meg.
         \begin{lstlisting}
 bounds = {'par1C': (1e-6, 1e-3), 'ser1L': (1e-5, 1e-2)}
 optimizer = BayesianOptimization(
@@ -385,7 +386,7 @@ optimizer = BayesianOptimization(
 import math
 bounds = {  'par1C': (math.log(1e-6), math.log(1e-3)),
             'ser1L': (math.log(1e-5), math.log(1e-2))}
-\end{lstlisting}
+		\end{lstlisting}
         Ezzel az említett mintavételezési probléma megoldódott.
 	\subsection{A függvényérték logaritmizálása}
         Egy másik, kevésbé jelentős problémára nyújtott megoldást a függvény kimenetének logaritmizálása. Ez egy konstans szorzó erejéig ekvivalens azzal, hogy dB-ben számoljuk ki az eltérést $S_{max}$ és $S_{min}$, illetve az aktuális $S=|S_{21}|$ között. Ez a konstans szorzó a különböző logaritmus alapokból származik a dB skála és az általunk használt természetes alapú logaritmus között, de nincs jelentőssége, mivel ilyen jellegű változtatásra érzéketlen az optimalizálónk. A függvényérték logaritmizálásával azt értük el, hogy loglog skálán ábrázolva az átviteli függvényt és a tiltott régiókat ténylegesen görbe alatti terület jellegű lesz a célfüggvény.
@@ -406,11 +407,78 @@ bounds = {  'par1C': (math.log(1e-6), math.log(1e-3)),
             \caption{A margó ideális használata.}
             \label{fig:megoldas}
         \end{figure}
-%
+
+\section{Példák}
+
+Az előző fejezetben egy sáváteresztő jellegű szűrőn keresztül mutattuk be a margókat, ebben a részben néhány további szűrőtípus optimalizálását mutatjuk be. Az egyik eset egy egyszerűbb aluláteresztő szűrő, a másik egy összetettebb, záró-áteresztő-záró-áteresztő struktúra.
+
+	\subsection{Aluláteresztő szűrő}
+		Egy ilyen szűrőtípus esetén egy áteresztő és egy zárósávot kell definiálnunk, közte egy toleranciasávval -- ennek hiányában nem adható helyes megoldás. Egy ilyen egyfokozatú szűrőnél legegyszerűbb esetben egyetlen elemet kell felhasználnunk, ez azonban nem biztosít elég meredek szűrőkarakterisztikát, továbbá túlzottan lekorlátozza a megoldható problémák halmazát.
+		
+		Ha kételemű aluláteresztő szűrőt tervezünk, egy párhuzamos kondenzátor és egy soros tekercset kell méreteznünk. Ennek a szemléletes magyarázata, hogy kis frekvenciákon a kondenzátornak nagy, a tekercsnek kicsi impedanciája van, ezáltal kis csillapítást okoz, nagy frekvenciákra pedig fordítva, jelentős csillapítást okoz. A specifikált frekvenciatartományokat, a megválasztott limiteket és a frekvenciatartományok típusát az alábbi kódrészlet mutatja.
+		\begin{lstlisting}
+starts = [0.1, 400e3]
+ends = [100e3, 10e6]
+limits = [0.2, 0.4]
+directions = ["pass", "stop"]
+spec = Spec(starts, ends, limits, directions, margin=0.47, n=1000)
+		\end{lstlisting}
+		Felveszünk $L = \SI{1}{mH}$ és $C = \SI{1}{\mu F}$ paraméter értékeket kiindulásnak, de az eredmény \ref{fig:alulatereszto}. ábrán láthatóan nem felel meg a követelményeknek.
+		\begin{figure}[h!]
+            \centering
+            \includegraphics[width=0.7\textwidth]{alulatereszto.pdf}
+            \caption{Aluláteresztő szűrő kezdeti paraméterekkel.}
+            \label{fig:alulatereszto}
+        \end{figure}
+        Meghívjuk ezután az optimalizálót, úgy, hogy a paramétereket az inicializált értékének $\pm 1$ dekádos tartományában keresse, a határok megadását mutatja az alábbi kódrészlet.
+        \begin{lstlisting}
+bounds = {'par1C': (math.log(1e-7), math.log(1e-4)), 'ser1L': (math.log(1e-4), math.log(1e-2))}
+        \end{lstlisting}
+        Az eredményül adódott szűrőkarakterisztikát a \ref{fig:alulatereszto_opt}. ábra mutatja -- megjegyezzük, hogy ennek a méretezését kézzel is meg lehet tenni. Az $L$ és $C$ paraméterek egyikének lefixálása után a Thomson-formulát kell használni: $f_{rez} = \frac{1}{2\pi\sqrt{L C}}$, ami megadja a rezonanciafrekvenciát, esetünkben a töréspontot.
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=0.7\textwidth]{alulatereszto_opt.pdf}
+            \caption{Aluláteresztő szűrő optimalizált paraméterekkel, ami így megfelel a specifikációnak.}
+            \label{fig:alulatereszto_opt}
+        \end{figure}
+        
+	\subsection{Összetett példa}
+		Vizsgáljunk meg egy összetettebb példát, ahol záró-áteresztő-záró-áteresztő sávok vannak, meglehetősen keskeny toleranciasávval elválasztva. A frekvenciatartományok kezdeteit, végeit, a limiteket és a sávok típusait a következőképp választottuk meg:
+		\begin{lstlisting}
+starts = [1, 2e4, 20e6, 200e6]
+ends = [7e3, 12e6, 100e6, 1e9]
+limits = [0.1, 0.7, 0.05, 0.1]
+directions = ["stop", "pass", "stop", "pass"]
+spec = Spec(starts, ends, limits, directions, margin=0.47, n=1000)
+        \end{lstlisting}		
+		Az első zárósáv $\SI{7}{kHz}$-es vége és következő áteresztő sáv $\SI{2}{MHz}$-es kezdete között egy felülátersztő jellegű, az előzőhöz hasonló kételemű blokkot használunk. A különbség itt a felüláteresztő viselkedés, azaz kis frekvenciákra kis átvitelt követelünk meg, ezt egy párhuzamos tekercsel és egy soros kondenzátorral tehetjük meg. A második fokozatban egy sávzáró szűrőt valósítunk meg, ugyanis a harmadik tartományunk előtt és után is áteresztőtartományok vannak. Ehhez első körben egy soros $LC$ kört használunk, azaz a párhuzamos ág elemeire nincs szükség. Egy soros $LC$ kör rezonanciafrekvencián nagy impedanciát mutat -- ideális esetben végtelen nagyot -- ami kis átvitelt, tehát az $|S_{21}|$ grafikonon egy leszívást mutat.
+
+        A fent látható inicializálóértékekkel a szűrőkarakterisztika elmetszi a záró és az áteresztő sávokat, amint azt a \ref{fig:bonyi}. ábrán láthatjuk. Válasszuk meg a határokat, majd engedjük rá az optimalizálót.
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=0.7\textwidth]{bonyi.pdf}
+            \caption{Összetett szűrő kezdeti paraméterekkel.}
+            \label{fig:bonyi}
+        \end{figure}
+       	\begin{lstlisting}
+spec.cost(plot=True, par1L = math.log(9e-4), ser1C = math.log(9e-6), ser2L = math.log(5e-6), ser2C = math.log(3e-12))
+        \end{lstlisting}
+        A \ref{fig:bonyi_subopt}. ábrán látható eredmény optimális, de nem helyes, a szűrőkarakterisztika mindkét zárótartományt elmetszi. A középső áteresztősávot viszont helyesen kikerüli, továbbá az első zárósávba is minimalizálta a belógást. Ezt akár meg is lehet szüntetni, ha meredekebb, 3 elemű felüláteresztő szűrő méretezünk rá, a sávzárónál ez már nem ilyen könnyű. Vélhetően specifikáció követel meg túl sokat, a további leszívások, azaz soros $LC$ tagból álló fokozatok beiktatása javulást még okozhat, de a maradéktalan betartás nehéz lenne.
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=0.7\textwidth]{bonyi_subopt.pdf}
+            \caption{Összetett szűrő optimalizálás után. Látható, hogy az általunk megadott lehetőségekkel nem lehet megfelelni a követelményeknek.}
+            \label{fig:bonyi_subopt}
+        \end{figure}
+        
+        
+        A második példa arra világít rá, hogy a neurális hálós optimalizáló nem csodaszer, csak a kezelője által meghatározott tartományon tud optimalizálni a megadott komplexitásig. A méretezés hosszadalmas folyamatát le tudja rövidíteni, de a tervező dolga figyelembe venni a szűrőkarakterisztika alapvető tulajdonságait.
+
 \clearpage
 \begin{thebibliography}{9}
     \bibitem{lancpar_spar} Láncparaméter -- S-paraméter konverzió (elérve 2023.06.07.): \url{https://www.rfwireless-world.com/Terminology/abcd-matrix-vs-s-matrix.html}
     \bibitem{bayesian_optimization} BayesianOptimization python könyvtár GitHub oldala. (Elérve: 2023.06.07.) \url{https://github.com/bayesian-optimization/BayesianOptimization}
+    \bibitem{scipy} Scipy: L-BFGS-B minimalizáció dokumentációja \url{https://docs.scipy.org/doc/scipy/reference/optimize.minimize-lbfgsb.html}
 \end{thebibliography}
 
 \clearpage
