@@ -9,7 +9,7 @@ software/__pycache__
 *.snm
 *.synctex.gz
 *.toc
-prezi/output.txt
+*/output.txt
 .idea
 *.xmpi
 *.xmpdata

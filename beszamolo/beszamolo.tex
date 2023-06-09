@@ -347,18 +347,44 @@ formulák egyrészt csak közelítések, azaz nem írják le pontosan az $L$ és
             \label{fig:kaszkad}
         \end{figure}
 	\subsection{Szórási paraméterek}
-        Végül elérkeztünk a szórási paraméterek számításához. \Aref{subsec:lancparameterek}. pontban tárgyalt láncparaméterek használatát az is indokolja, hogy létezik egyszerű képlet az $\mat{A}$ mátrixból $\mat{S}$ mátrixba való áttérésre. Az $\mat{S}$ mátrix minden elemére külön analitikus képlet van \cite{lancpar_spar}, de mivel nekünk csak az $S_{21}$-re van szükségünk, így csak az erre a konkrét paraméterre vonatkozót kellett használnunk. Az S-paraméterek használatához minden portra definiálni kell egy normalizáló impedanciát, $Z_0$-t. Ezt mi a konvencionálisnak számító \qty{50}{\ohm}-ra választottuk, de végeredményben ennek nincs különösebb jelentőssége. 
+        Végül elérkeztünk a szórási paraméterek számításához. \Aref{subsec:lancparameterek}. pontban tárgyalt láncparaméterek használatát az is indokolja, hogy létezik egyszerű képlet az $\mat{A}$ mátrixból $\mat{S}$ mátrixba való áttérésre. Az $\mat{S}$ mátrix minden elemére külön analitikus képlet van \cite{lancpar_spar}, de mivel nekünk csak az $S_{21}$-re van szükségünk, így csak az erre a konkrét paraméterre vonatkozót kellett használnunk. Az S-paraméterek használatához minden portra definiálni kell egy normalizáló impedanciát, $Z_0$-t. Ezt mi a konvencionálisnak számító \qty{50}{\ohm}-ra választottuk. 
     \begin{equation}
         S_{21} = \dfrac{2}{A+B/Z_0+CZ_0+D}
     \end{equation}
 \section{A célfüggvény javítása}
     \label{sec:celfuggveny_javitas}
+    A $c(\vect{x})$ célfüggvény a félév során átesett néhány változtatáson. Ezt az indokolta, hogy a naívan, első próbálkozásként felírt célfüggvény több szempontból sem viselkedett jól az optimalizálás szempontjából. Ebben a fejezetben ezeket a fejlesztési lépéseket írjuk le.
 	\subsection{Az első verzió és a problémái}
+        Eőször a következőképpen definiáltuk a célfüggvényt felépítő $h(f,\vect{x})$ hibafüggvényt.
+        \begin{equation}
+            h(f,\vect{x}) =
+            \begin{cases}
+                % cost += max(0, 1-S21[j]/self.limits[i])
+                \dfrac{S}{S_{min}}-1 & \mbox{ha } S<S_{min}\\[2ex]
+                % cost += max(0, S21[j]/self.limits[i]-1)
+                1-\dfrac{S}{S_{max}} & \mbox{ha } S>S_{max}\\[2ex]
+                0 & \text{egyébként}
+            \end{cases}
+        \end{equation}
+        Erre a felírásra teljesül, amit fentebb célként vázoltunk, vagyis, hogy minél jobban átlóg valamelyik határon a függvény görbéje, annál jóbban büntetjük és az egyáltalán nem belógó függvényt nem büntetjük. A hibafüggvényt is változtattuk később, de tapasztalatunk szerint már akár ilyen formában is használható lenne. Ebben a formában a $c(\vect{x})$ függvénnyel a fő probléma, hogy az $\vect{x}$ vektorban egyszerűen a tekercsek induktivitásai és a kondenzátorok kapacitásai szerepeltek H-ben és F-ban. Ez magában még nem hangzik problémásnak, de ehhez azt is figyelembe kell vennünk, hogy az eredményes optimalizáláshoz \emph{nagyságrendileg} elég széles tartományon belül kell megválasztania az optimalizáló algoritmusnak a következő kipróbálandó paraméterértéket.
+        Az \emph{Optimizer} objektum deklarálásakor meg kell adnunk a változtatható függvényparaméterek neveit és mindegyikhez azokat a határokat, amelyek közötti értékeket behelyettesíthet az optimalizálás során. Ezt a következőképpen lehet megadni \aref{fig:egyseg_alulatereszto}. ábrán vázolt elsőrendű aluláeresztő szűrő esetén, ha a kapacitás értékét \qtyrange{1e-6}{1e-3}{\farad} között, az induktivitás értékét pedig \qtyrange{1e-5}{1e-2}{\henry} között engedjük meg.
+        \begin{lstlisting}
+bounds = {'par1C': (1e-6, 1e-3), 'ser1L': (1e-5, 1e-2)}
+optimizer = BayesianOptimization(
+    pbounds=bounds,
+...
+)
+\end{lstlisting}
+
+        A fent leírt alsó és felső határok egészen realisztikusak lehetnek, az optimalizációnak mégis nehezen tudja kezelni az ilyen eseteket. Ezt az okozza, hogy az intervallumok 0-hoz közeli végénél kis paraméterérték-változtatásra is nagyon jelentősen változik az átviteli karakterisztika, ez által a hibafüggvény és a célfüggvény értéke is. Más szóval a 0-közeli paraméterértékeknél nem tud az optimalizáló rátanulni a hirtelen nagyon megnövekvő parciális deriváltak miatt a célfüggvényre, pedig a feladat szempontjából ezek a kis abszolútértékű paraméterértékek nagyon is fontosak lennének.
+
+        Ez a probléma a kód futása során egyszerűen úgy jelentkezett, hogy ha mondjuk egy elemérték az \numrange{1e-6}{1e-2} tartományban változhatott, akkor az aptimalizáló egyáltalán nem is próbált ki olyan értékeket, amelyek körülbelül a \numrange{1e-6}{1e-4} tartományba esnek.
 	\subsection{A paraméterek logaritmizálása}
+        Az előző pontban vázolt, sok nagyságrendet átöltlő intervallumok problémájára találtunk megoldást
 	\subsection{A függvényérték logaritmizálása}
 
-\begin{thebibliography}{1}
-    \bibitem{lancpar_spar} Láncparaméter -- S-paraméter konverzió: \url{https://www.rfwireless-world.com/Terminology/abcd-matrix-vs-s-matrix.html}
+\begin{thebibliography}{9}
+    \bibitem{lancpar_spar} Láncparaméter -- S-paraméter konverzió (elérve 2023.06.07.): \url{https://www.rfwireless-world.com/Terminology/abcd-matrix-vs-s-matrix.html}
 \end{thebibliography}
 
 \clearpage
