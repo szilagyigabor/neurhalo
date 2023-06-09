@@ -289,62 +289,63 @@ been already used, duplicate ignored
 l.114 \begin{align*}
                      [1]
 
-LaTeX Warning: Reference `xyz' on page 2 undefined on input line 124.
+LaTeX Warning: Reference `sec:celfuggveny' on page 2 undefined on input line 12
+4.
 
 [2] [3]
 
 LaTeX Warning: Reference `sec:celfuggveny_javitas' on page 4 undefined on input
- line 146.
+ line 147.
 
 
 LaTeX Warning: Reference `fig:egyseg_kapcsolas' on page 4 undefined on input li
-ne 148.
+ne 149.
 
 
 LaTeX Warning: Reference `fig:egyseg_parh_LC' on page 4 undefined on input line
- 185.
+ 186.
 
 
 LaTeX Warning: Reference `fig:egyseg_sor_LC' on page 4 undefined on input line 
-185.
+186.
 
 
 LaTeX Warning: Reference `fig:egyseg_alulatereszto' on page 4 undefined on inpu
-t line 185.
+t line 186.
 
+[4]
 
-LaTeX Warning: Reference `fig:impedancia' on page 4 undefined on input line 289
+LaTeX Warning: Reference `fig:impedancia' on page 5 undefined on input line 290
 .
 
-[4] [5]
+[5]
 
-LaTeX Warning: Reference `fig:kaszkad' on page 6 undefined on input line 324.
+LaTeX Warning: Reference `fig:kaszkad' on page 6 undefined on input line 325.
 
 [6]
 
 LaTeX Warning: Reference `subsec:lancparameterek' on page 7 undefined on input 
-line 350.
+line 351.
 
 
-LaTeX Warning: Citation `lancpar_spar' on page 7 undefined on input line 350.
+LaTeX Warning: Citation `lancpar_spar' on page 7 undefined on input line 351.
 
 
 LaTeX Warning: Reference `fig:egyseg_alulatereszto' on page 7 undefined on inpu
-t line 370.
+t line 371.
 
-[7] (/usr/local/texlive/2022/texmf-dist/tex/latex/base/t1cmtt.fd)
+[7] (/usr/local/texlive/2022/texmf-dist/tex/latex/base/t1cmtt.fd) [8]
 
-LaTeX Warning: Reference `fig:margin' on page 8 undefined on input line 393.
+LaTeX Warning: Reference `fig:margin' on page 9 undefined on input line 394.
 
-[8]
 
-LaTeX Warning: Reference `fig:megoldas' on page 9 undefined on input line 402.
+LaTeX Warning: Reference `fig:megoldas' on page 9 undefined on input line 403.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [9 <./atvitel_pelda.pdf>] [10 <./megoldas.pdf>]
-Underfull \hbox (badness 3746) in paragraph at lines 412--413
+Underfull \hbox (badness 3746) in paragraph at lines 413--414
 []\T1/cmr/m/n/12 Láncparaméter -- S-paraméter kon-ver-zió (el-ér-ve 2023.06.07.
 ): [][]$\T1/cmtt/m/n/12 https : / / www .
 [11] (../software/LC_opt_defs.py [12] [13]) [14] (./beszamolo.aux)
@@ -382,7 +383,7 @@ c/cm-super/sfrm2488.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/
 cm-super/sfti1200.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm
 -super/sftt0800.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-s
 uper/sftt1200.pfb>
-Output written on beszamolo.pdf (15 pages, 410246 bytes).
+Output written on beszamolo.pdf (15 pages, 413675 bytes).
 Transcript written on beszamolo.log.
 This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex)
  restricted \write18 enabled.
@@ -672,23 +673,16 @@ been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.110 		
-         [1]
-
-LaTeX Warning: Reference `xyz' on page 2 undefined on input line 124.
-
-[2] [3] [4] [5] [6] [7]
+         [1] [2] [3] [4] [5] [6] [7]
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/t1cmtt.fd) [8]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [9] [10 <./atvitel_pelda.pdf> <./megoldas.pdf>]
-Underfull \hbox (badness 3746) in paragraph at lines 412--413
+Underfull \hbox (badness 3746) in paragraph at lines 413--414
 []\T1/cmr/m/n/12 Láncparaméter -- S-paraméter kon-ver-zió (el-ér-ve 2023.06.07.
 ): [][]$\T1/cmtt/m/n/12 https : / / www .
 [11] (../software/LC_opt_defs.py [12] [13]) [14] (./beszamolo.aux)
-
-LaTeX Warning: There were undefined references.
-
 
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
@@ -715,5 +709,5 @@ c/cm-super/sfrm2488.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/
 cm-super/sfti1200.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm
 -super/sftt0800.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-s
 uper/sftt1200.pfb>
-Output written on beszamolo.pdf (15 pages, 418116 bytes).
+Output written on beszamolo.pdf (15 pages, 420069 bytes).
 Transcript written on beszamolo.log.
