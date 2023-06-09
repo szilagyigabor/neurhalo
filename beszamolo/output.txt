@@ -2,8 +2,8 @@ This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded forma
  restricted \write18 enabled.
 entering extended mode
 (./beszamolo.tex
-LaTeX2e <2022-06-01> patch level 5
-L3 programming layer <2022-08-30>
+LaTeX2e <2022-11-01> patch level 1
+L3 programming layer <2022-12-17>
 
 LaTeX Info: Writing file `./beszamolo.xmpdata'.
 
@@ -12,7 +12,7 @@ LaTeX Warning: Tab has been converted to Blank Space.
 
 
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/article.cls
-Document Class: article 2021/10/04 v1.4n Standard LaTeX document class
+Document Class: article 2022/07/02 v1.4n Standard LaTeX document class
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/size12.clo))
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/fontenc.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/inputenc.sty)
@@ -195,7 +195,7 @@ x) (/usr/local/texlive/2022/texmf-dist/tex/generic/circuitikz/pgfcirclabel.tex)
 (/usr/local/texlive/2022/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
 (/usr/local/texlive/2022/texmf-dist/tex/generic/infwarerr/infwarerr.sty))
-(/usr/local/texlive/2022/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty)
+(/usr/local/texlive/2022/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/generic/pdfescape/pdfescape.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/latex/hycolor/hycolor.sty)
@@ -382,14 +382,14 @@ c/cm-super/sfrm2488.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/
 cm-super/sfti1200.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm
 -super/sftt0800.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-s
 uper/sftt1200.pfb>
-Output written on beszamolo.pdf (15 pages, 410260 bytes).
+Output written on beszamolo.pdf (15 pages, 410246 bytes).
 Transcript written on beszamolo.log.
 This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex)
  restricted \write18 enabled.
 entering extended mode
 (./beszamolo.tex
-LaTeX2e <2022-06-01> patch level 5
-L3 programming layer <2022-08-30>
+LaTeX2e <2022-11-01> patch level 1
+L3 programming layer <2022-12-17>
 
 LaTeX Warning: Writing or overwriting file `./beszamolo.xmpdata'.
 
@@ -398,7 +398,7 @@ LaTeX Warning: Tab has been converted to Blank Space.
 
 
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/article.cls
-Document Class: article 2021/10/04 v1.4n Standard LaTeX document class
+Document Class: article 2022/07/02 v1.4n Standard LaTeX document class
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/size12.clo))
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/fontenc.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/inputenc.sty)
@@ -581,7 +581,7 @@ x) (/usr/local/texlive/2022/texmf-dist/tex/generic/circuitikz/pgfcirclabel.tex)
 (/usr/local/texlive/2022/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
 (/usr/local/texlive/2022/texmf-dist/tex/generic/infwarerr/infwarerr.sty))
-(/usr/local/texlive/2022/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty)
+(/usr/local/texlive/2022/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/generic/pdfescape/pdfescape.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/latex/hycolor/hycolor.sty)
@@ -715,5 +715,5 @@ c/cm-super/sfrm2488.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/
 cm-super/sfti1200.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm
 -super/sftt0800.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-s
 uper/sftt1200.pfb>
-Output written on beszamolo.pdf (15 pages, 418143 bytes).
+Output written on beszamolo.pdf (15 pages, 418116 bytes).
 Transcript written on beszamolo.log.
