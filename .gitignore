@@ -10,6 +10,6 @@ software/__pycache__
 *.synctex.gz
 *.toc
 */output.txt
-.idea
+*/.idea
 *.xmpi
 *.xmpdata

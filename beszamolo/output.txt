@@ -2,8 +2,8 @@ This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded forma
  restricted \write18 enabled.
 entering extended mode
 (./beszamolo.tex
-LaTeX2e <2022-06-01> patch level 5
-L3 programming layer <2022-08-30>
+LaTeX2e <2022-11-01> patch level 1
+L3 programming layer <2022-12-17>
 
 LaTeX Info: Writing file `./beszamolo.xmpdata'.
 
@@ -12,7 +12,7 @@ LaTeX Warning: Tab has been converted to Blank Space.
 
 
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/article.cls
-Document Class: article 2021/10/04 v1.4n Standard LaTeX document class
+Document Class: article 2022/07/02 v1.4n Standard LaTeX document class
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/size12.clo))
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/fontenc.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/inputenc.sty)
@@ -195,7 +195,7 @@ x) (/usr/local/texlive/2022/texmf-dist/tex/generic/circuitikz/pgfcirclabel.tex)
 (/usr/local/texlive/2022/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
 (/usr/local/texlive/2022/texmf-dist/tex/generic/infwarerr/infwarerr.sty))
-(/usr/local/texlive/2022/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty)
+(/usr/local/texlive/2022/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/generic/pdfescape/pdfescape.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/latex/hycolor/hycolor.sty)
@@ -286,68 +286,100 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.114 \begin{align*}
+l.115 \begin{align*}
                      [1]
 
-LaTeX Warning: Reference `xyz' on page 2 undefined on input line 124.
+LaTeX Warning: Reference `sec:celfuggveny' on page 2 undefined on input line 12
+5.
 
-[2] [3]
+
+LaTeX Warning: Citation `scipy' on page 2 undefined on input line 129.
+
+
+LaTeX Warning: Citation `lancpar_spar' on page 2 undefined on input line 129.
+
+[2]
+
+LaTeX Warning: Citation `scipy' on page 3 undefined on input line 138.
+
+[3]
 
 LaTeX Warning: Reference `sec:celfuggveny_javitas' on page 4 undefined on input
- line 146.
+ line 148.
 
 
 LaTeX Warning: Reference `fig:egyseg_kapcsolas' on page 4 undefined on input li
-ne 148.
+ne 150.
 
 
 LaTeX Warning: Reference `fig:egyseg_parh_LC' on page 4 undefined on input line
- 185.
+ 187.
 
 
 LaTeX Warning: Reference `fig:egyseg_sor_LC' on page 4 undefined on input line 
-185.
+187.
 
 
 LaTeX Warning: Reference `fig:egyseg_alulatereszto' on page 4 undefined on inpu
-t line 185.
+t line 187.
 
+[4]
 
-LaTeX Warning: Reference `fig:impedancia' on page 4 undefined on input line 289
+LaTeX Warning: Reference `fig:impedancia' on page 5 undefined on input line 291
 .
 
-[4] [5]
+[5]
 
-LaTeX Warning: Reference `fig:kaszkad' on page 6 undefined on input line 324.
+LaTeX Warning: Reference `fig:kaszkad' on page 6 undefined on input line 326.
 
 [6]
 
 LaTeX Warning: Reference `subsec:lancparameterek' on page 7 undefined on input 
-line 350.
+line 352.
 
 
-LaTeX Warning: Citation `lancpar_spar' on page 7 undefined on input line 350.
+LaTeX Warning: Citation `lancpar_spar' on page 7 undefined on input line 352.
 
 
 LaTeX Warning: Reference `fig:egyseg_alulatereszto' on page 7 undefined on inpu
-t line 370.
+t line 372.
 
-[7] (/usr/local/texlive/2022/texmf-dist/tex/latex/base/t1cmtt.fd)
+[7] (/usr/local/texlive/2022/texmf-dist/tex/latex/base/t1cmtt.fd) [8]
 
-LaTeX Warning: Reference `fig:margin' on page 8 undefined on input line 393.
+LaTeX Warning: Reference `fig:margin' on page 9 undefined on input line 395.
 
-[8]
 
-LaTeX Warning: Reference `fig:megoldas' on page 9 undefined on input line 402.
+LaTeX Warning: Reference `fig:megoldas' on page 9 undefined on input line 404.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[9 <./atvitel_pelda.pdf>] [10 <./megoldas.pdf>]
-Underfull \hbox (badness 3746) in paragraph at lines 412--413
+[9 <./atvitel_pelda.pdf>]
+
+LaTeX Warning: Reference `fig:alulatereszto' on page 10 undefined on input line
+ 427.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[10 <./megoldas.pdf>]
+
+LaTeX Warning: Reference `fig:alulatereszto_opt' on page 11 undefined on input 
+line 438.
+
+[11 <./alulatereszto.pdf> <./alulatereszto_opt.pdf>]
+
+LaTeX Warning: Reference `fig:bonyi' on page 12 undefined on input line 457.
+
+
+LaTeX Warning: Reference `fig:bonyi_subopt' on page 12 undefined on input line 
+467.
+
+[12 <./bonyi.pdf>] [13 <./bonyi_subopt.pdf>]
+Underfull \hbox (badness 3746) in paragraph at lines 480--481
 []\T1/cmr/m/n/12 Láncparaméter -- S-paraméter kon-ver-zió (el-ér-ve 2023.06.07.
 ): [][]$\T1/cmtt/m/n/12 https : / / www .
-[11] (../software/LC_opt_defs.py [12] [13]) [14] (./beszamolo.aux)
+[14] (../software/LC_opt_defs.py [15] [16]) [17] (./beszamolo.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -382,14 +414,14 @@ c/cm-super/sfrm2488.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/
 cm-super/sfti1200.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm
 -super/sftt0800.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-s
 uper/sftt1200.pfb>
-Output written on beszamolo.pdf (15 pages, 410260 bytes).
+Output written on beszamolo.pdf (18 pages, 439633 bytes).
 Transcript written on beszamolo.log.
 This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex)
  restricted \write18 enabled.
 entering extended mode
 (./beszamolo.tex
-LaTeX2e <2022-06-01> patch level 5
-L3 programming layer <2022-08-30>
+LaTeX2e <2022-11-01> patch level 1
+L3 programming layer <2022-12-17>
 
 LaTeX Warning: Writing or overwriting file `./beszamolo.xmpdata'.
 
@@ -398,7 +430,7 @@ LaTeX Warning: Tab has been converted to Blank Space.
 
 
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/article.cls
-Document Class: article 2021/10/04 v1.4n Standard LaTeX document class
+Document Class: article 2022/07/02 v1.4n Standard LaTeX document class
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/size12.clo))
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/fontenc.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/inputenc.sty)
@@ -581,7 +613,7 @@ x) (/usr/local/texlive/2022/texmf-dist/tex/generic/circuitikz/pgfcirclabel.tex)
 (/usr/local/texlive/2022/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
 (/usr/local/texlive/2022/texmf-dist/tex/generic/infwarerr/infwarerr.sty))
-(/usr/local/texlive/2022/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty)
+(/usr/local/texlive/2022/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/generic/pdfescape/pdfescape.sty)
 (/usr/local/texlive/2022/texmf-dist/tex/latex/hycolor/hycolor.sty)
@@ -671,24 +703,22 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.110 		
-         [1]
-
-LaTeX Warning: Reference `xyz' on page 2 undefined on input line 124.
-
-[2] [3] [4] [5] [6] [7]
+l.111 		
+         [1] [2] [3] [4] [5] [6] [7]
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/t1cmtt.fd) [8]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[9] [10 <./atvitel_pelda.pdf> <./megoldas.pdf>]
-Underfull \hbox (badness 3746) in paragraph at lines 412--413
+[9] [10 <./atvitel_pelda.pdf> <./megoldas.pdf>] [11 <./alulatereszto.pdf>]
+[12 <./alulatereszto_opt.pdf>]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[13 <./bonyi.pdf>] [14 <./bonyi_subopt.pdf>]
+Underfull \hbox (badness 3746) in paragraph at lines 480--481
 []\T1/cmr/m/n/12 Láncparaméter -- S-paraméter kon-ver-zió (el-ér-ve 2023.06.07.
 ): [][]$\T1/cmtt/m/n/12 https : / / www .
-[11] (../software/LC_opt_defs.py [12] [13]) [14] (./beszamolo.aux)
-
-LaTeX Warning: There were undefined references.
-
+[15] (../software/LC_opt_defs.py [16] [17]) [18] (./beszamolo.aux)
 
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
@@ -715,5 +745,5 @@ c/cm-super/sfrm2488.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/
 cm-super/sfti1200.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm
 -super/sftt0800.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-s
 uper/sftt1200.pfb>
-Output written on beszamolo.pdf (15 pages, 418143 bytes).
+Output written on beszamolo.pdf (19 pages, 458562 bytes).
 Transcript written on beszamolo.log.
