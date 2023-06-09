@@ -333,10 +333,21 @@ LaTeX Warning: Reference `fig:egyseg_alulatereszto' on page 7 undefined on inpu
 t line 370.
 
 [7] (/usr/local/texlive/2022/texmf-dist/tex/latex/base/t1cmtt.fd)
-Underfull \hbox (badness 3746) in paragraph at lines 387--388
+
+LaTeX Warning: Reference `fig:margin' on page 8 undefined on input line 393.
+
+[8]
+
+LaTeX Warning: Reference `fig:megoldas' on page 9 undefined on input line 402.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[9 <./atvitel_pelda.pdf>] [10 <./megoldas.pdf>]
+Underfull \hbox (badness 3746) in paragraph at lines 412--413
 []\T1/cmr/m/n/12 Láncparaméter -- S-paraméter kon-ver-zió (el-ér-ve 2023.06.07.
 ): [][]$\T1/cmtt/m/n/12 https : / / www .
-[8] (../software/LC_opt_defs.py [9] [10]) [11] (./beszamolo.aux)
+[11] (../software/LC_opt_defs.py [12] [13]) [14] (./beszamolo.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -371,7 +382,7 @@ c/cm-super/sfrm2488.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/
 cm-super/sfti1200.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm
 -super/sftt0800.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-s
 uper/sftt1200.pfb>
-Output written on beszamolo.pdf (12 pages, 390918 bytes).
+Output written on beszamolo.pdf (15 pages, 410260 bytes).
 Transcript written on beszamolo.log.
 This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex)
  restricted \write18 enabled.
@@ -667,10 +678,14 @@ LaTeX Warning: Reference `xyz' on page 2 undefined on input line 124.
 
 [2] [3] [4] [5] [6] [7]
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/t1cmtt.fd) [8]
-Underfull \hbox (badness 3746) in paragraph at lines 387--388
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[9] [10 <./atvitel_pelda.pdf> <./megoldas.pdf>]
+Underfull \hbox (badness 3746) in paragraph at lines 412--413
 []\T1/cmr/m/n/12 Láncparaméter -- S-paraméter kon-ver-zió (el-ér-ve 2023.06.07.
 ): [][]$\T1/cmtt/m/n/12 https : / / www .
-[9] (../software/LC_opt_defs.py [10] [11]) [12] (./beszamolo.aux)
+[11] (../software/LC_opt_defs.py [12] [13]) [14] (./beszamolo.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -700,5 +715,5 @@ c/cm-super/sfrm2488.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/
 cm-super/sfti1200.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm
 -super/sftt0800.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-s
 uper/sftt1200.pfb>
-Output written on beszamolo.pdf (13 pages, 399144 bytes).
+Output written on beszamolo.pdf (15 pages, 418143 bytes).
 Transcript written on beszamolo.log.

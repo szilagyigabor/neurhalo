@@ -372,7 +372,7 @@ formulák egyrészt csak közelítések, azaz nem írják le pontosan az $L$ és
 bounds = {'par1C': (1e-6, 1e-3), 'ser1L': (1e-5, 1e-2)}
 optimizer = BayesianOptimization(
     pbounds=bounds,
-...
+    ...
 )
 \end{lstlisting}
 
@@ -380,11 +380,37 @@ optimizer = BayesianOptimization(
 
         Ez a probléma a kód futása során egyszerűen úgy jelentkezett, hogy ha mondjuk egy elemérték az \numrange{1e-6}{1e-2} tartományban változhatott, akkor az aptimalizáló egyáltalán nem is próbált ki olyan értékeket, amelyek körülbelül a \numrange{1e-6}{1e-4} tartományba esnek.
 	\subsection{A paraméterek logaritmizálása}
-        Az előző pontban vázolt, sok nagyságrendet átöltlő intervallumok problémájára találtunk megoldást
+        Az előző pontban vázolt, sok nagyságrendet átöltlő intervallumok problémájára találtunk megoldást. Ez gyakorlatilag annyi, hogy nem az elemértékeket adjuk meg a célfüggvény paramétereiként, hanem ezek (természetes alapú) logaritmusait. Ezek alapján majd a célfüggvény belül egyből visszaszámolja az eredeti elemértékeket és változatlanul számol tovább, csak az változik, hogy a célfüggvény összességében sokkal simább lesz és az optimalizáló jobban tudja kezelni. Ekkor a paraméter-határértékek megadása a következőképpen néz ki.
+        \begin{lstlisting}
+import math
+bounds = {  'par1C': (math.log(1e-6), math.log(1e-3)),
+            'ser1L': (math.log(1e-5), math.log(1e-2))}
+\end{lstlisting}
+        Ezzel az említett mintavételezési probléma megoldódott.
 	\subsection{A függvényérték logaritmizálása}
+        Egy másik, kevésbé jelentős problémára nyújtott megoldást a függvény kimenetének logaritmizálása. Ez egy konstans szorzó erejéig ekvivalens azzal, hogy dB-ben számoljuk ki az eltérést $S_{max}$ és $S_{min}$, illetve az aktuális $S=|S_{21}|$ között. Ez a konstans szorzó a különböző logaritmus alapokból származik a dB skála és az általunk használt természetes alapú logaritmus között, de nincs jelentőssége, mivel ilyen jellegű változtatásra érzéketlen az optimalizálónk. A függvényérték logaritmizálásával azt értük el, hogy loglog skálán ábrázolva az átviteli függvényt és a tiltott régiókat ténylegesen görbe alatti terület jellegű lesz a célfüggvény.
+    \subsection{Büntetett margó}
+        Az optimalizálás segítése érdekében bevezettünk egy opcionális \verb|margin| nevű paramétert, amit a \verb|Spec| objektum példányosításakor kell megadni. Ez egy további büntetett régiót ad az áteresztő sávok tiltott régiója fölé, illetve a záró sávok tiltott régiója alá. Ezzel effektíve azt érjük el, mintha ennyivel szigorúbbak lennének a határértékeink. A büntetett margót \aref{fig:margin}. ábra szemlélteti.
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=0.7\textwidth]{atvitel_pelda.pdf}
+            \caption{Három specifikált frekvenciasáv, két záró (piros) és egy áteresztő (zöld) sáv, valamint a büntetett margó használata.}
+            \label{fig:margin}
+        \end{figure}
+        Az ábrán a bal oldali (kisebb frekvenciákhoz tartozó) záró sávban jól láthatóan az eredeti specifikáció által definiált tiltott régióba is belelóg az átviteli függvény. Emiatt természetesen ennek a sávnak nemnulla hozzájárulása van a célfüggvényhez. Az áteresztő sávban az eredeti specifikációnak ugyan megfelel az átviteli függvény, de a margóba még belóg, így itt is nemnulla büntetés adódik. A jobb oldali záró sávnak még a margóját is elkerüli az átviteli függvény, így ennek a sávnak 0 a célfüggvényhez a hozzájárulása.
 
+        A margó bevezetését az indokolta, hogy jobban fel lehessen oldani az olyan helyzeteket, amikor az átviteli függvény ugyan teljesíti az eredeti specifikációt, de egyes frekvenciákon csak éppen, mivel ilyenkor valós alkalmazásoknál érdemes valamennyi tartalékot rászámolni a tervezésnél. Ilyenkor a margó lehetővé teszi, hogy nagyjából egyforma mértékben közelítse meg a határértékeket az átviteli függvény, ne pedig az egyiknél nagyon nagy tartalékkal, a másiknál pedig kis tartalékkal haladjon el. A margó célszerű használatakor olyan megoldás születik, amikor a megfelel a hálózat a specifikációnak, de a legtöbb sávhoz tartozó margóba kicsivel belelóg. Erre mutat példát \aref{fig:megoldas}. ábra, még ha csak egy nagyon egyszerű esetre is, amit az optimalizáló algoritmus talált meg.
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=0.7\textwidth]{megoldas.pdf}
+            \caption{A margó ideális használata.}
+            \label{fig:megoldas}
+        \end{figure}
+%
+\clearpage
 \begin{thebibliography}{9}
     \bibitem{lancpar_spar} Láncparaméter -- S-paraméter konverzió (elérve 2023.06.07.): \url{https://www.rfwireless-world.com/Terminology/abcd-matrix-vs-s-matrix.html}
+    \bibitem{bayesian_optimization} BayesianOptimization python könyvtár GitHub oldala. (Elérve: 2023.06.07.) \url{https://github.com/bayesian-optimization/BayesianOptimization}
 \end{thebibliography}
 
 \clearpage
